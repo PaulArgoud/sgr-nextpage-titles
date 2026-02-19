@@ -1,6 +1,6 @@
 <?php
 /**
- * Multipage Admin Advanced.
+ * Multipage Admin Settings.
  *
  * @package Multipage
  * @since 1.4

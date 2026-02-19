@@ -109,8 +109,8 @@ class Multipage {
 
 		$this->file           = MPP_PLUGIN_DIR . 'sgr-nextpage-titles.php';
 		$this->basename       = basename( MPP_PLUGIN_DIR ) . '/sgr-nextpage-titles.php';
-		$this->plugin_dir     = trailingslashit( MPP_PLUGIN_DIR );
-		$this->plugin_url     = trailingslashit( MPP_PLUGIN_URL );
+		$this->plugin_dir     = MPP_PLUGIN_DIR;
+		$this->plugin_url     = MPP_PLUGIN_URL;
 		
 		/** Multipage Data ****************************************************/
 		
@@ -182,7 +182,7 @@ class Multipage {
 		$post = isset( $wp_query->post ) ? $wp_query->post : null;
 		
 		// If is not singular return.
-		if ( is_null( $post ) || empty( $post ) ) {
+		if ( empty( $post ) ) {
 			return;
 		}
 
@@ -435,10 +435,10 @@ class Multipage {
 					$comments_link = '<a href="#comments">';
 					break;
 				case 'first-page':
-					$comments_link = _mpp_link_page( 1, 'comments' );
+					$comments_link = _mpp_link_page( 1, '', 'comments' );
 					break;
 				case 'last-page':
-					$comments_link = _mpp_link_page( $this->max_num_pages, 'comments' );
+					$comments_link = _mpp_link_page( $this->max_num_pages, '', 'comments' );
 					break;
 				default:
 					$comments_link = '';
@@ -587,7 +587,7 @@ class Multipage {
 
 		$_mpp_page_keys = array_keys( $this->mpp_data );
 		$this->page = $wp_query->query_vars['page'];
-		$this->mpp_index = $this->page > 1 ? $this->page -1 : 0;
+		$this->mpp_index = $this->page > 1 ? $this->page - 1 : 0;
 
 		// If the page doesn't exist redirect to the first page.
 		if ( $this->mpp_index >= count( $_mpp_page_keys ) ) {

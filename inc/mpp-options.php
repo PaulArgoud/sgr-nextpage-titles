@@ -83,7 +83,7 @@ function mpp_comments_on_page( $default = 'all' ) {
 	 * @since 1.4
 	 *
 	 * @param string $default Optional. Default: all.
-	 * @return int The pages where to display comments.
+	 * @return string The pages where to display comments.
 	 */
 	function mpp_get_comments_on_page( $default = 'all' ) {
 

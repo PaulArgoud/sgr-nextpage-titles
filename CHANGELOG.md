@@ -36,6 +36,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Incorrect `@since 1.6` docblock tags corrected to `@since 1.5` (version 1.6 does not exist)
 - Copy-paste docblock errors: `mpp_hide_intro_title()`, `mpp_toc_only_on_the_first_page()`, and `mpp_hide_toc_header()` incorrectly described as "standard WordPress pagination"
 - **SEO**: `rel=next` link on the first page pointed to itself instead of page 2 — normalized page index in `mpp_rel_links()`
+- Comments TOC link for `first-page` / `last-page` was missing `#comments` URL fragment — `'comments'` was passed as `$rel` instead of `$p` parameter to `_mpp_link_page()`
+- Swapped file headers: `admin-settings.php` said "Admin Advanced" and `admin-advanced-settings.php` said "Admin Settings"
+- `mpp_get_comments_on_page()` docblock declared `@return int` but the function returns a `string`
 - `mpp_the_content` filter docblock had wrong parameter names (`$toc_labels` instead of `$toc`) and types (`array` instead of `string`)
 - `mpp_link_pages_args` filter docblock had `@since 3.0.0` copied from WordPress core — corrected to `@since 1.4`
 - Typo « fitler » corrected to « filter » in `setup_actions()` comment
@@ -61,6 +64,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mpp_get_comments_on_page()` called once and stored instead of twice in `mpp_post()`
 - `constant('MPP_PLUGIN_DIR')` / `constant('MPP_PLUGIN_URL')` replaced with direct constant access in `setup_globals()`
 - `strip_tags()` string allowlist updated to array form (recommended since PHP 7.4) in `Multipage_Parser`
+- Redundant `trailingslashit()` removed from `setup_globals()` — `plugin_dir_path()` / `plugin_dir_url()` already add a trailing slash
+- Redundant `is_null( $post ) || empty( $post )` simplified to `empty( $post )` in `mpp_post()`
+- `json_encode()` replaced with `wp_json_encode()` in TinyMCE `languages.php`
+- Minor formatting: added missing space in `$this->page - 1` arithmetic expression
 - Gutenberg block description replaced (was "lorem ipsum" placeholder)
 - Gutenberg block script dependency changed from deprecated `wp-editor` to `wp-block-editor`
 - Frontend CSS header updated to current author and HTTPS Plugin URI
