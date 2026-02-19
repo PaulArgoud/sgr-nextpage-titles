@@ -1,6 +1,6 @@
 # Multipage for WordPress
 
-[![WordPress Plugin Version](https://img.shields.io/badge/version-1.5.15-blue.svg)](https://github.com/PaulArgoud/sgr-nextpage-titles/releases/tag/1.5.15)
+[![WordPress Plugin Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](https://github.com/PaulArgoud/sgr-nextpage-titles/releases/tag/1.6.0)
 [![License: GPL v3](https://img.shields.io/badge/license-GPLv3-green.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![WordPress](https://img.shields.io/badge/WordPress-5.0%2B-0073aa.svg)](https://wordpress.org/)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777BB4.svg)](https://www.php.net/)
