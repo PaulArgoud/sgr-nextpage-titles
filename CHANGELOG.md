@@ -10,11 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **XSS**: subpage title now escaped with `esc_html()` in `mpp_the_content()` output
+- **XSS**: translated strings in quicktag JS now escaped with `esc_js()` instead of raw `_e()`
+- **PHP 8.2**: re-declared `$admin` property on `Multipage` class to prevent dynamic property deprecation warning
 - `mpp_pre_handle_404()` returned `null` instead of `true`, failing to short-circuit the 404 handler
 - `versions()` called `get_option( null, 'multipage' )` with swapped arguments — corrected to `get_option( 'multipage' )`
 - `$comments_link` potentially undefined before use in `mpp_the_content()` — now initialized
 - Admin CSS enqueued without version string, preventing cache busting — now uses `MPP_VERSION`
 - `save_post` hook ran on revisions and autosaves — now filtered with `wp_is_post_revision()` / `wp_is_post_autosave()`
+- `save_post()` could crash if `get_post()` returned `null` — added guard
 - `mpp_the_title()` loaded the `wordpress-seo` text domain even when Yoast SEO was not active — now guarded with `defined( 'WPSEO_VERSION' )`
 - Double slash in `hide_comments()` path (`MPP_PLUGIN_DIR . '/index.php'`)
 - Navigation CSS class not sanitized — now uses `sanitize_html_class()`
@@ -23,13 +26,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Duplicate `$handle` assignment in `MPP_Admin::enqueue_scripts()`
 - Plugin URI used `http://` instead of `https://`
 - `MPP_VERSION` constant was `'1.5.14'` while plugin header declared `1.5.15`
+- Comments link in TOC was missing `<li>` wrapper, producing invalid HTML
+- `multipage_return_array()` returned an empty array instead of `false` when no valid shortcodes were found
+- "Build Multipage postmetas" only found shortcode posts — now also detects Gutenberg block posts
+- Plugin action links detection used fragile `/trunk` path hack — now uses `plugin_basename()`
 
 ### Added
 
 - `uninstall.php` to clean up all plugin options and `_mpp_data` post meta on deletion
 - `Requires at least: 5.0` and `Requires PHP: 7.4` headers in plugin file
-- `CLAUDE.md` for Claude Code guidance
 - History section in `README.md` documenting the plugin's origins and fork lineage
+- `aria-label` attributes on TOC and navigation `<nav>` elements for accessibility
 
 ### Changed
 
@@ -39,6 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mpp_is_block_editor_active()` simplified — removed unnecessary WP < 5.0 and Gutenberg plugin checks
 - TinyMCE disable setting description updated (no longer references WordPress 3.9)
 - `mpp_get_continue_or_prev_next()` called once and stored instead of twice
+- Gutenberg block description replaced (was "lorem ipsum" placeholder)
+- Gutenberg block script dependency changed from deprecated `wp-editor` to `wp-block-editor`
+- Frontend CSS header updated to current author and HTTPS Plugin URI
 
 ### Removed
 
@@ -46,7 +56,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Orphaned `<input type="checkbox">` and commented-out toggle HTML in TOC template
 - Dead `mpp_admin_settings_callback_excerpt_on_all_pages()` (called non-existent `mpp_excerpt_all_pages()`)
 - Dead `mpp_admin_settings_callback_prettylinks()` (referenced old `envire.it` URL)
-- Unused `$admin` and `$options` properties from `Multipage` class
+- Unused `$options` property from `Multipage` class
+- Dead widget files: `class-mpp-table-of-contents-widget.php` and `mpp-widgets.php` (never loaded, non-functional)
+- Dead `mpp_uninstall()` function in `mpp-update.php` (replaced by `uninstall.php`)
+- Orphaned `.toctogglespan` CSS rule (toggle was removed from PHP)
 
 ## [1.5.14] - 2026-02-19
 

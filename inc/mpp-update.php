@@ -246,17 +246,27 @@ function mpp_update_to_1_4() {
 function mpp_add_post_multipage_meta( $update_option = true ) {
 	global $wpdb;
 
-	$where = $wpdb->prepare("post_content LIKE %s", '%[nextpage title=%');
-	$mpp_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE $where AND post_status != 'auto-draft' AND post_status != 'draft' AND post_type != 'revision'" );
+	// Find posts with shortcode or Gutenberg block markers.
+	$shortcode_where = $wpdb->prepare( "post_content LIKE %s", '%[nextpage title=%' );
+	$gutenberg_where = $wpdb->prepare( "post_content LIKE %s", '%wp:multipage/subpage%' );
+	$mpp_ids = $wpdb->get_col(
+		"SELECT ID FROM $wpdb->posts WHERE ($shortcode_where OR $gutenberg_where) AND post_status != 'auto-draft' AND post_status != 'draft' AND post_type != 'revision'"
+	);
 
 	foreach ( $mpp_ids as $mpp_id ) {
 		$post = get_post( $mpp_id );
+		if ( ! $post ) {
+			continue;
+		}
 		$_mpp_data = Multipage_Parser::multipage_return_array( $post->post_content );
-		update_post_meta( $mpp_id, '_mpp_data', $_mpp_data );
+		if ( ! empty( $_mpp_data ) ) {
+			update_post_meta( $mpp_id, '_mpp_data', $_mpp_data );
+		}
 	}
-	
-	if ( $update_option === true )
+
+	if ( true === $update_option ) {
 		update_option( '_mpp-postmeta-built', time() );
+	}
 }
 
 /** Activation Actions ********************************************************/
@@ -302,19 +312,3 @@ function mpp_deactivation() {
 	do_action( 'mpp_deactivation' );
 }
 
-/**
- * Fire uninstall hook.
- *
- * Runs when uninstalling Multipage (TBD).
- *
- * @since 1.5
- */
-function mpp_uninstall() {
-
-	/**
-	 * Fires during the uninstallation of Multipage.
-	 *
-	 * @since 1.5
-	 */
-	do_action( 'mpp_uninstall' );
-}

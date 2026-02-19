@@ -17,6 +17,10 @@ class Multipage {
 	public $db_version = 0;
 	public $db_version_raw = 0;
 
+	/** Admin *****************************************************************/
+
+	public $admin = null;
+
 	/** Paths *****************************************************************/
 
 	public $file       = '';
@@ -289,6 +293,9 @@ class Multipage {
 
 		$key = '_mpp_data';
 		$post = get_post( $post_id );
+		if ( ! $post ) {
+			return;
+		}
 		$post_content = $post->post_content;
 		$_mpp_data = Multipage_Parser::multipage_return_array( $post_content );
 		
@@ -408,7 +415,7 @@ class Multipage {
 		$continue_or_prev_next = mpp_get_continue_or_prev_next();
 		if ( $continue_or_prev_next !== 'hidden' ) {
 			$navigation = mpp_link_pages( $this, array(
-				'before'				=> '<nav class="mpp-post-navigation ' . sanitize_html_class( $continue_or_prev_next ) . '" role="navigation"><div class="nav-links">',
+				'before'				=> '<nav class="mpp-post-navigation ' . sanitize_html_class( $continue_or_prev_next ) . '" aria-label="' . esc_attr__( 'Subpage navigation', 'sgr-nextpage-titles' ) . '"><div class="nav-links">',
 				'after'					=> '</div><!-- .nav-links --></nav><!-- .mpp-post-navigation -->',
 				'continue_or_prev_next'	=> $continue_or_prev_next
 			) );
@@ -439,7 +446,7 @@ class Multipage {
 			'hide_header'	=> mpp_hide_toc_header(),
 			'comments'		=> $comments_link,
 			'position'		=> mpp_get_toc_position(),
-			'before'		=> '<nav class="mpp-toc toc"><ul>',
+			'before'		=> '<nav class="mpp-toc toc" aria-label="' . esc_attr__( 'Table of contents', 'sgr-nextpage-titles' ) . '"><ul>',
 			'after'			=> '</ul></nav>',
 			'separator'		=> $toc_row_separator,
 			'pagelink'		=> $toc_row_pagelink,

@@ -209,7 +209,7 @@ function mpp_toc( $multipage, $args = '' ) {
 	// Add a link for comments.
 	if ( $r['comments'] ) {
 		$link = $r['comments'] . __( 'Comments', 'sgr-nextpage-titles' ) . '</a>';
-		$row = $r['link_before'] . $link . $r['link_after'];
+		$row = $r['row_before'] . $r['link_before'] . $link . $r['link_after'] . $r['row_after'];
 		$output .= $row;
 	}
 

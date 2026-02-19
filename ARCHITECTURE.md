@@ -15,8 +15,7 @@ sgr-nextpage-titles/
 ├── classes/
 │   ├── class-mpp-admin.php          # MPP_Admin: admin menus, settings registration,
 │   │                                #   TinyMCE integration, Gutenberg block registration
-│   ├── class-mpp-shortcodes.php     # Multipage_Plugin_Shortcodes: registers [nextpage] shortcode
-│   └── class-mpp-table-of-contents-widget.php  # MPP_Table_of_Contents_Widget (WP_Widget)
+│   └── class-mpp-shortcodes.php     # Multipage_Plugin_Shortcodes: registers [nextpage] shortcode
 │
 ├── inc/
 │   ├── mpp-admin.php                # Bootstraps MPP_Admin (creates the instance)
@@ -26,7 +25,6 @@ sgr-nextpage-titles/
 │   ├── mpp-shortcodes.php           # Initializes Multipage_Plugin_Shortcodes
 │   ├── mpp-template.php             # Navigation links (mpp_link_pages) and TOC (mpp_toc) rendering
 │   ├── mpp-update.php               # Version migration (1.3 → 1.4), activation/deactivation hooks
-│   ├── mpp-widgets.php              # Widget registration (currently disabled)
 │   │
 │   └── admin/
 │       ├── admin-actions.php        # Hooks admin_init → mpp_admin_init → settings registration

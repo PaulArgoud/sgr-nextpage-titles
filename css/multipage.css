@@ -1,8 +1,8 @@
 /*
-Plugin Name: Multipage Plugin
-Plugin URI: http://wordpress.org/plugins/sgr-nextpage-titles/
-Author: Sergio De Falco
-Author URI: https://www.envire.it
+Plugin Name: Multipage
+Plugin URI: https://wordpress.org/plugins/sgr-nextpage-titles/
+Author: Paul ARGOUD
+Author URI: https://paul.argoud.net
 License: GPL v3
 */
 
@@ -50,21 +50,10 @@ License: GPL v3
 	margin-left: 1.75em;
 }
 
-.mpp-toc-title {
-	position: relative;
-}
-
 .mpp-toc-title h2 {
 	font-size: 120%;
 	text-align: center;
 	margin-top: 0;
-}
-
-.mpp-toc-title .toctogglespan label {
-	position: absolute;
-	right: 1%;
-	top: 1%;
-	cursor: pointer;
 }
 
 .mpp-toc-container ul,

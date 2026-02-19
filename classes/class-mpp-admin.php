@@ -274,10 +274,8 @@ class MPP_Admin {
 	 * @return array Processed links.
 	 */
 	public function modify_plugin_action_links( $links, $file ) {
-		$temp_dir = str_replace( '/trunk', '', MPP__PLUGIN_DIR ); // Check this and the following...
-		
 		// Return normal links if not Multipage.
-		if ( basename( $temp_dir ) . '/sgr-nextpage-titles.php' !== $file ) { // ...this one
+		if ( plugin_basename( MPP__PLUGIN_FILE ) !== $file ) {
 			return $links;
 		}
 
@@ -306,10 +304,10 @@ class MPP_Admin {
 		if ( wp_script_is( 'quicktags' ) ) {
 	?>
 	<script type="text/javascript">
-		QTags.addButton( 'eg_subpage', '<?php _e( 'subpage', 'sgr-nextpage-titles' ); ?>', prompt_subtitle, '', '', '<?php _e( 'Start a new Subpage', 'sgr-nextpage-titles' ); ?>', 121 );
-		
+		QTags.addButton( 'eg_subpage', '<?php echo esc_js( __( 'subpage', 'sgr-nextpage-titles' ) ); ?>', prompt_subtitle, '', '', '<?php echo esc_js( __( 'Start a new Subpage', 'sgr-nextpage-titles' ) ); ?>', 121 );
+
 		function prompt_subtitle(e, c, ed) {
-			var subtitle = prompt( '<?php _e( 'Enter the subpage title', 'sgr-nextpage-titles' ); ?>' ),
+			var subtitle = prompt( '<?php echo esc_js( __( 'Enter the subpage title', 'sgr-nextpage-titles' ) ); ?>' ),
 				shortcode, t = this;
 
 			if (typeof subtitle != 'undefined' && subtitle.length < 2) return;
@@ -412,7 +410,7 @@ class MPP_Admin {
 		wp_register_script(
 			'mpp-editor-blocks', // Handle.
 			MPP_PLUGIN_URL . 'admin/js/mpp-editor-blocks.js', //MPP_PLUGIN_URL . 'admin/js/mpp-editor-blocks' . $suffix . '.js',
-			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
+			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-block-editor' ), // Dependencies, defined above.
 			MPP_VERSION, // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: filemtime — Gets file modification time.
 			true // Enqueue the script in the footer.
 		);

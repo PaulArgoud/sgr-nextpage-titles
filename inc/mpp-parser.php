@@ -79,8 +79,9 @@ class Multipage_Parser {
 			$_multipage[ $subpage_slug ] = $atts["title"];
 		}
 
-		if ( isset( $_multipage ) && is_array( $_multipage ) )
+		if ( ! empty( $_multipage ) ) {
 			return $_multipage;
+		}
 
 		return false;
 	}
