@@ -27,8 +27,8 @@ class MPP_Admin {
 	/**
 	 * Notices used for user feedback, like saving settings.
 	 *
-	 * @since 1.9.0
-	 * @var array()
+	 * @since 1.4
+	 * @var array
 	 */
 	public $notices = array();
 
@@ -106,13 +106,13 @@ class MPP_Admin {
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2 );
 
 		// Check if TinyMCE is enabled (disabled if Gutenberg is running)
-		if ( get_user_option( 'rich_editing' ) == 'true' && mpp_disable_tinymce_buttons() != true ) {
+		if ( get_user_option( 'rich_editing' ) === 'true' && ! mpp_disable_tinymce_buttons() ) {
 
 			// Add TinyMCE Plugin
-			add_filter( 'mce_css', array( &$this, 'mpp_mce_css' ) );
-			add_filter( 'mce_buttons', array( &$this, 'mpp_mce_button' ) );
-			add_filter( 'mce_external_plugins', array( &$this, 'mpp_mce_external_plugin' ) );
-			add_filter( 'wp_mce_translation', array( &$this, 'mpp_wp_mce_translation' ), 10, 2 ); // Used on the Gutenberg Classic Editor
+			add_filter( 'mce_css', array( $this, 'mpp_mce_css' ) );
+			add_filter( 'mce_buttons', array( $this, 'mpp_mce_button' ) );
+			add_filter( 'mce_external_plugins', array( $this, 'mpp_mce_external_plugin' ) );
+			add_filter( 'wp_mce_translation', array( $this, 'mpp_wp_mce_translation' ), 10, 2 ); // Used on the Gutenberg Classic Editor
 		}
 
 		// If Gutenberg is running add the Classic Editor Button
@@ -123,7 +123,7 @@ class MPP_Admin {
 		}
 		
 		// Add HTML Editor button
-		add_action( 'admin_print_footer_scripts',		 array( &$this, 'editor_add_quicktags' ) );
+		add_action( 'admin_print_footer_scripts',		 array( $this, 'editor_add_quicktags' ) );
 	}
 
 	/**
@@ -279,7 +279,7 @@ class MPP_Admin {
 		$temp_dir = str_replace( '/trunk', '', MPP__PLUGIN_DIR ); // Check this and the following...
 		
 		// Return normal links if not Multipage.
-		if ( basename( $temp_dir ) . '/sgr-nextpage-titles.php' != $file ) { // ...this one
+		if ( basename( $temp_dir ) . '/sgr-nextpage-titles.php' !== $file ) { // ...this one
 			return $links;
 		}
 
@@ -353,14 +353,19 @@ class MPP_Admin {
 	 * @return array $buttons
 	 */
 	public static function mpp_mce_button( $buttons ) {
-		// Insert 'Subpage' button after the 'WP More' button
-		$wp_more_key = array_search( 'wp_more', $buttons ) +1;
-		$buttons_after = array_splice( $buttons, $wp_more_key);
-		
+		// Insert 'Subpage' button after the 'WP More' button.
+		$wp_more_key = array_search( 'wp_more', $buttons, true );
+		if ( false !== $wp_more_key ) {
+			$wp_more_key++;
+		} else {
+			$wp_more_key = count( $buttons );
+		}
+		$buttons_after = array_splice( $buttons, $wp_more_key );
+
 		array_unshift( $buttons_after, 'subpage' );
-		
+
 		$buttons = array_merge( $buttons, $buttons_after );
-		
+
 		return $buttons;
 	}
 

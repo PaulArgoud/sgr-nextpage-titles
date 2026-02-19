@@ -16,7 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Missing `esc_attr()` on `<option>` values in admin settings forms (4 occurrences)
 - Options cache never invalidated after saving — `mpp_clear_options_cache()` now resets the static cache
 - Deprecated `current_time('timestamp')` replaced with `time()` in `mpp-update.php` and `admin-advanced-settings.php`
-- Loose `==` comparison replaced with `===` across `class-mpp.php`, `admin-settings.php`, `admin-advanced-settings.php`, and `mpp-update.php`
+- Loose `==` / `!=` comparisons replaced with `===` / `!==` across all PHP files
+- `array_search()` without `false` check in TinyMCE button insertion (`class-mpp-admin.php`)
+- Operator precedence ambiguity in TOC active page condition (`mpp-template.php`)
+- Preview link parameters now properly sanitized with `intval()` / `sanitize_text_field()` (`mpp-template.php`)
+- Incorrect `@since 1.9.0` docblock tags corrected to `1.4`
 
 ### Added
 
@@ -34,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dead debug code in table of contents widget
 - Unused `admin-premium.php` page placeholder
+- Dead `is_gutenberg_page()` method in `class-mpp.php` (replaced by `mpp_is_block_editor_active()`)
 
 ## [1.5.13] - 2026-02-19
 

@@ -66,7 +66,7 @@ class MPP_Table_of_Contents_Widget extends WP_Widget {
 		/**
 		 * Fires after the display of widget content if logged out.
 		 *
-		 * @since 1.9.0
+		 * @since 1.4
 		 */
 		do_action( 'mpp_after_login_widget_loggedout' );
 

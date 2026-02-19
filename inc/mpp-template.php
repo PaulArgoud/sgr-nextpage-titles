@@ -63,7 +63,7 @@ function mpp_link_pages( $multipage, $args = '' ) {
 
 	$output = '';
 
-	if ( 'continue' == $r['continue_or_prev_next'] ) {
+	if ( 'continue' === $r['continue_or_prev_next'] ) {
 		$output .= $r['before'];
 		$subpage_keys = array_keys( $multipage->mpp_data );
 		$next = $page + 1;
@@ -78,7 +78,7 @@ function mpp_link_pages( $multipage, $args = '' ) {
 		$output .= apply_filters( 'mpp_link_pages_link', $text, $link );
 
 		$output .= $r['after'];
-	} elseif ( 'next-previous' == $r['continue_or_prev_next'] ) {
+	} elseif ( 'next-previous' === $r['continue_or_prev_next'] ) {
 		$output .= $r['before'];
 		$prev = $page - 1;
 		if ( $prev > 0 ) {
@@ -184,7 +184,7 @@ function mpp_toc( $multipage, $args = '' ) {
 	foreach( $multipage->mpp_data as $subpage => $title ) {
 		$safe_title = wp_kses_post( $title );
 		$row = $r['row_before'] . str_replace( '%', $i, $r['pagelink'] ) . $r['separator'];
-		if ( $i != $page || ! $more && 1 == $page ) {
+		if ( $i !== $page || ( ! $more && 1 === $page ) ) {
 			$link = _mpp_link_page( $i ) . $safe_title . '</a>';
 			$row .= $r['link_before'] . $link . $r['link_after'];
 		} else {
@@ -215,7 +215,7 @@ function mpp_toc( $multipage, $args = '' ) {
 
 	$output .= $r['after'];
 
-	$container_class = isset( $r['position'] ) && $r['position'] != '' ? ' ' . $r['position'] : '';
+	$container_class = isset( $r['position'] ) && $r['position'] !== '' ? ' ' . $r['position'] : '';
 	$template = '
 	<div class="mpp-toc-container' . $container_class . '">';
 
@@ -272,12 +272,12 @@ function _mpp_link_page_url( $i, $p = '' ) {
 	$post = get_post();
 	$query_args = array();
 
-	if ( 1 == $i ) {
+	if ( 1 === $i ) {
 		$url = get_permalink();
 	} else {
-		if ( '' == get_option( 'permalink_structure' ) || in_array( $post->post_status, array( 'draft', 'pending', 'future', 'private' ) ) )
+		if ( '' === get_option( 'permalink_structure' ) || in_array( $post->post_status, array( 'draft', 'pending', 'future', 'private' ), true ) )
 			$url = add_query_arg( 'page', $i, get_permalink() );
-		elseif ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $post->ID )
+		elseif ( 'page' === get_option( 'show_on_front' ) && (int) get_option( 'page_on_front' ) === $post->ID )
 			$url = trailingslashit( get_permalink() ) . user_trailingslashit( "$wp_rewrite->pagination_base/" . $i, 'single_paged' );
 		else
 			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $i, 'single_paged' );
@@ -285,8 +285,8 @@ function _mpp_link_page_url( $i, $p = '' ) {
 
 	if ( is_preview() ) {
 		if ( ( 'draft' !== $post->post_status ) && isset( $_GET['preview_id'], $_GET['preview_nonce'] ) ) {
-			$query_args['preview_id']    = wp_unslash( $_GET['preview_id'] );
-			$query_args['preview_nonce'] = wp_unslash( $_GET['preview_nonce'] );
+			$query_args['preview_id']    = intval( $_GET['preview_id'] );
+			$query_args['preview_nonce'] = sanitize_text_field( wp_unslash( $_GET['preview_nonce'] ) );
 		}
 
 		$url = get_preview_post_link( $post, $query_args, $url );
