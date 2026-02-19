@@ -5,6 +5,36 @@ All notable changes to the Multipage plugin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.14] - 2026-02-19
+
+### Fixed
+
+- Uninitialized `$custom_intro` variable causing PHP 8.4 warnings (`class-mpp.php`)
+- Array bounds check missing for `$_mpp_page_keys` access in `mpp_pre_handle_404()`
+- Ambiguous operator precedence in comments display condition (added explicit parentheses)
+- Integer settings sanitized with `sanitize_text_field()` instead of `intval()` in advanced settings
+- Missing `esc_attr()` on `<option>` values in admin settings forms (4 occurrences)
+- Options cache never invalidated after saving — `mpp_clear_options_cache()` now resets the static cache
+- Deprecated `current_time('timestamp')` replaced with `time()` in `mpp-update.php` and `admin-advanced-settings.php`
+- Loose `==` comparison replaced with `===` across `class-mpp.php`, `admin-settings.php`, `admin-advanced-settings.php`, and `mpp-update.php`
+
+### Added
+
+- `LICENSE` file (GPL v3 full text)
+- `CONTRIBUTING.md` with coding standards, project structure, and contribution guidelines
+- `ARCHITECTURE.md` describing the plugin file structure and data flow
+
+### Changed
+
+- Replaced `&$this` with `$this` in all callback arrays (unnecessary since PHP 5.4)
+- Updated Codex link to `developer.wordpress.org` in advanced settings
+- Extracted content parser into `Multipage_Parser` class (`inc/mpp-parser.php`) from the main `Multipage` class
+
+### Removed
+
+- Dead debug code in table of contents widget
+- Unused `admin-premium.php` page placeholder
+
 ## [1.5.13] - 2026-02-19
 
 ### Fixed

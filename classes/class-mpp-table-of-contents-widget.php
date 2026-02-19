@@ -60,11 +60,8 @@ class MPP_Table_of_Contents_Widget extends WP_Widget {
 
 		echo $args['before_widget'];
 
-		echo $args['before_title'] . esc_html( $title ) . $args['after_title']; ?>
+		echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
 
-		<p><?php // echo Multipage::page; ?></p>
-		
-		<?php
 
 		/**
 		 * Fires after the display of widget content if logged out.

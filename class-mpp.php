@@ -109,7 +109,7 @@ class Multipage {
 
 		/** Versions **********************************************************/
 
-		$this->version    = '1.5.13';
+		$this->version    = '1.5.14';
 		$this->db_version = 1000;
 		
 		/** Paths *************************************************************/
@@ -146,6 +146,7 @@ class Multipage {
 		require( $this->plugin_dir . 'inc/mpp-admin.php'            );
 		require( $this->plugin_dir . 'inc/mpp-functions.php'        );
 		require( $this->plugin_dir . 'inc/mpp-options.php'          );
+		require( $this->plugin_dir . 'inc/mpp-parser.php'           );
 		require( $this->plugin_dir . 'inc/mpp-shortcodes.php'       );
 		require( $this->plugin_dir . 'inc/mpp-template.php'         );
 		require( $this->plugin_dir . 'inc/mpp-update.php'           );
@@ -172,14 +173,14 @@ class Multipage {
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 1 );
 		
 		// Add fitler pre_handle_404 in order to define if the page is 404.
-		add_filter( 'pre_handle_404', array( &$this, 'mpp_pre_handle_404' ), 100, 2 );
+		add_filter( 'pre_handle_404', array( $this, 'mpp_pre_handle_404' ), 100, 2 );
 
 		// Prevent WordPress from redirecting valid multipage subpages to the base URL.
-		add_filter( 'redirect_canonical', array( &$this, 'mpp_redirect_canonical' ), 10, 2 );
+		add_filter( 'redirect_canonical', array( $this, 'mpp_redirect_canonical' ), 10, 2 );
 	}
 
 	private function frontend_init() {
-		add_action( 'wp', array( &$this, 'mpp_post' ) );
+		add_action( 'wp', array( $this, 'mpp_post' ) );
 	}
 
 	public function mpp_post() {
@@ -201,6 +202,7 @@ class Multipage {
 			return;
 
 		// Replace eventually existing variables on the first page.
+		$custom_intro = 0;
 		foreach ( $this->mpp_data as $link => $title ) {
 			$this->mpp_data[ $link ] = str_replace( '%%intro%%', __( 'Intro', 'sgr-nextpage-titles' ), $title, $custom_intro );
 			break;
@@ -209,12 +211,12 @@ class Multipage {
 		$_mpp_page_keys = array_keys( $this->mpp_data );
 
 		// Check whether or not to hide the standard WordPress pagination.
-		if ( mpp_disable_standard_pagination() == true )
-			add_filter( 'wp_link_pages_args', array( &$this, 'hide_standard_pagination' ) );
+		if ( mpp_disable_standard_pagination() )
+			add_filter( 'wp_link_pages_args', array( $this, 'hide_standard_pagination' ) );
 
 		// Check whether or not to hide comments.
-		if ( $this->page != 0 && mpp_get_comments_on_page() == 'first-page' || $this->page != count( $_mpp_page_keys ) && mpp_get_comments_on_page() == 'last-page' )
-			add_filter( 'comments_template', array( &$this, 'hide_comments' ) );
+		if ( ( $this->page !== 0 && mpp_get_comments_on_page() === 'first-page' ) || ( $this->page !== count( $_mpp_page_keys ) && mpp_get_comments_on_page() === 'last-page' ) )
+			add_filter( 'comments_template', array( $this, 'hide_comments' ) );
 
 		// Initialize variables
 		$content = $post->post_content;
@@ -258,13 +260,13 @@ class Multipage {
 
 		// Change the document title only if it's not the first page.
 		if ( $this->page > 1 ) {
-			add_filter( 'wp_title',					array( &$this, 'mpp_the_title' ), mpp_get_rewrite_title_priority(), 1 );
-			add_filter( 'pre_get_document_title',	array( &$this, 'mpp_the_title' ), mpp_get_rewrite_title_priority(), 1 );
-			add_filter( 'document_title_parts',		array( &$this, 'mpp_document_title_parts' ), mpp_get_rewrite_title_priority(), 1 );
+			add_filter( 'wp_title',					array( $this, 'mpp_the_title' ), mpp_get_rewrite_title_priority(), 1 );
+			add_filter( 'pre_get_document_title',	array( $this, 'mpp_the_title' ), mpp_get_rewrite_title_priority(), 1 );
+			add_filter( 'document_title_parts',		array( $this, 'mpp_document_title_parts' ), mpp_get_rewrite_title_priority(), 1 );
 		}
-		add_filter( 'the_content', 			array( &$this, 'mpp_the_content' ), mpp_get_rewrite_content_priority(), 1 );
-		add_action( 'wp_enqueue_scripts',	array( &$this, 'enqueue_styles' ) );
-		add_action( 'wp_head',				array( &$this, 'mpp_rel_links' ) );
+		add_filter( 'the_content', 			array( $this, 'mpp_the_content' ), mpp_get_rewrite_content_priority(), 1 );
+		add_action( 'wp_enqueue_scripts',	array( $this, 'enqueue_styles' ) );
+		add_action( 'wp_head',				array( $this, 'mpp_rel_links' ) );
 	}
 
 	/**
@@ -314,9 +316,9 @@ class Multipage {
 		$key = '_mpp_data';
 		$post = get_post( $post_id );
 		$post_content = $post->post_content;
-		$_mpp_data = self::multipage_return_array( $post_content );
+		$_mpp_data = Multipage_Parser::multipage_return_array( $post_content );
 		
-		if ( $_mpp_data == false ) {
+		if ( empty( $_mpp_data ) ) {
 			delete_post_meta( $post_id, $key );
 			return;
 		}
@@ -326,84 +328,13 @@ class Multipage {
 		return;
 	}
 	
+	/**
+	 * Delegates to Multipage_Parser.
+	 *
+	 * @deprecated 1.5.14 Use Multipage_Parser::multipage_return_array() directly.
+	 */
 	public static function multipage_return_array( $content ) {
-		// Initialize the array
-		$_multipage = array();
-
-		// Try Gutenberg block JSON attributes first (handles quotes in titles correctly).
-		if ( preg_match_all( '/<!-- wp:multipage\/subpage\s+(\{.*?\})\s*-->/s', $content, $block_matches ) ) {
-			// Check if there is content before the first block (intro page).
-			$first_block_pos = strpos( $content, $block_matches[0][0] );
-			$content_before = trim( strip_tags( substr( $content, 0, $first_block_pos ) ) );
-			// Remove any remaining HTML comments from the intro check.
-			$content_before = trim( preg_replace( '/<!--.*?-->/', '', $content_before ) );
-
-			if ( ! empty( $content_before ) ) {
-				$_multipage['intro'] = '%%intro%%';
-			}
-
-			foreach ( $block_matches[1] as $json_str ) {
-				$attrs = json_decode( $json_str, true );
-				if ( $attrs && isset( $attrs['title'] ) ) {
-					$title = $attrs['title'];
-					$subpage_slug = $subpage_slug_temp = isset( $attrs['slug'] ) ? sanitize_title( $attrs['slug'] ) : sanitize_title( $title );
-					for ( $i = 1; array_key_exists( $subpage_slug, $_multipage ) && $i < 100; $i++ ) {
-						$subpage_slug = $subpage_slug_temp . '-' . $i;
-					}
-					$_multipage[ $subpage_slug ] = $title;
-				}
-			}
-
-			if ( ! empty( $_multipage ) ) {
-				return $_multipage;
-			}
-		}
-
-		// Fall back to shortcode parsing for classic editor content.
-		$content_temp = self::multipage_clean_content( $content );
-
-		$matches = self::parse_nextpage_shortcode( $content_temp );
-		foreach ( $matches[0] as $key=>$match ) {
-			$atts = shortcode_parse_atts( str_replace( array( '[', ']' ), '', $match ) );
-			if ( ! array_key_exists( 'title', $atts ) )
-				continue;
-
-			// Check if the intro has a Title
-			if ( 0 == count( $_multipage ) && 0 !== strpos( $content_temp, $match ) )
-				$_multipage['intro'] = '%%intro%%';
-
-			$subpage_slug = $subpage_slug_temp = isset( $atts["slug"] ) ? sanitize_title( $atts["slug"] ) : sanitize_title( $atts["title"] );
-			for ( $i = 1; array_key_exists ( $subpage_slug, $_multipage ) && $i < 100; $i++ ) {
-				$subpage_slug = $subpage_slug_temp . '-' . $i;
-			}
-			$_multipage[ $subpage_slug ] = $atts["title"];
-		}
-
-		if ( isset( $_multipage ) && is_array( $_multipage ) )
-			return $_multipage;
-
-		return false;
-	}
-	
-	public static function multipage_clean_content( $content ) {
-		if ( ! $content || false == $content )
-			return $content;
-
-		// The shortcodes could be closed inside p tags, so we remove them from inside the content.
-		$content = strip_tags( $content, '<br><img><b><strong><i><code><blockquote>' );
-
-		// Also remove HTML comments (Gutenberg)
-		$result = preg_replace( '/<!--[\s\S]*?-->/', '', $content );
-		if ( null !== $result ) {
-			$content = $result;
-		}
-
-		return trim( $content );
-	}
-	
-	public static function parse_nextpage_shortcode( $content ) {
-		preg_match_all( MPP_PATTERN, $content, $matches );
-		return $matches;
+		return Multipage_Parser::multipage_return_array( $content );
 	}
 	
 	/**
@@ -483,7 +414,7 @@ class Multipage {
 			return $content;
 		
 		$page_title_template = apply_filters( 'mpp_page_title_template', '<h2>%s</h2>' );
-		$page_title = mpp_hide_intro_title() == true && $this->page == 0 ? '' : sprintf( $page_title_template, $this->page_title );
+		$page_title = mpp_hide_intro_title() && $this->page === 0 ? '' : sprintf( $page_title_template, $this->page_title );
 		$toc_labels = mpp_get_toc_row_labels();
 
 		switch ( $toc_labels ) {
@@ -513,7 +444,7 @@ class Multipage {
 		}
 		
 		// Get comments link
-		if ( mpp_comments_toc_link() == true ) {
+		if ( mpp_comments_toc_link() ) {
 			switch ( mpp_get_comments_on_page() ) {
 				case 'all':
 					$comments_link = '<a href="#comments">';
@@ -544,9 +475,9 @@ class Multipage {
 		$output = $page_title;
 		
 		// Add the table of content
-		if ( mpp_get_toc_position() == 'bottom' ) {
+		if ( mpp_get_toc_position() === 'bottom' ) {
 			$output .= $content . $toc;
-		} elseif ( mpp_get_toc_position() == 'hidden' || mpp_toc_only_on_the_first_page() && $this->page > 1 ) {
+		} elseif ( mpp_get_toc_position() === 'hidden' || ( mpp_toc_only_on_the_first_page() && $this->page > 1 ) ) {
 			$output .= $content;
 		} else {
 			$output .= $toc . $content;
@@ -672,13 +603,14 @@ class Multipage {
 		$_mpp_page_keys = array_keys( $this->mpp_data );
 		$this->page = $wp_query->query_vars['page'];
 		$this->mpp_index = $this->page > 1 ? $this->page -1 : 0;
-		$this->mpp_pagename = $_mpp_page_keys[ $this->mpp_index ];
 
 		// If the page doesn't exist redirect to the first page.
-		if ( $this->mpp_index >= count( $this->mpp_data ) ) {
+		if ( $this->mpp_index >= count( $_mpp_page_keys ) ) {
 			return $preempt;
 		}
-		
+
+		$this->mpp_pagename = $_mpp_page_keys[ $this->mpp_index ];
+
 		return;
 	}
 }

@@ -24,6 +24,12 @@ defined( 'ABSPATH' ) || exit;
 function mpp_get_option( $option_name, $default = false ) {
 	static $cache = array();
 
+	// Allow cache reset via sentinel key.
+	if ( '__clear_cache__' === $option_name ) {
+		$cache = array();
+		return null;
+	}
+
 	if ( ! array_key_exists( $option_name, $cache ) ) {
 		$cache[ $option_name ] = get_option( $option_name, $default );
 	}
@@ -37,8 +43,7 @@ function mpp_get_option( $option_name, $default = false ) {
  * @since 1.5.13
  */
 function mpp_clear_options_cache() {
-	// Static variable reset: call mpp_get_option with a flag won't work,
-	// so we hook into option updates to invalidate.
+	mpp_get_option( '__clear_cache__' );
 }
 
 /**

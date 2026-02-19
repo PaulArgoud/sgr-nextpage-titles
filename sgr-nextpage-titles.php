@@ -5,7 +5,7 @@ Plugin Name: Multipage
 Plugin URI: http://wordpress.org/plugins/sgr-nextpage-titles/
 Description: Multipage Plugin for WordPress will give you the ability to order a post in multiple subpages, giving each subpage a title and having a table of contents.
 Author: Envire Web Solutions
-Version: 1.5.13
+Version: 1.5.14
 Author URI: https://www.envire.it
 Text Domain: sgr-nextpage-titles
 Domain Path: /languages/
@@ -18,7 +18,7 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-define( 'MPP_VERSION', '1.5.13' );
+define( 'MPP_VERSION', '1.5.14' );
 define( 'MPP__MINIMUM_WP_VERSION', '5.0' );
 define( 'MPP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MPP__PLUGIN_FILE', __FILE__ );

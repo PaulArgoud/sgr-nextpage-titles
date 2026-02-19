@@ -166,70 +166,70 @@ function mpp_update_to_1_4() {
 		return;
 
 	foreach ( $old_settings as $option_key => $option_value ) {
-		if ( isset( $option_value ) && '' != $option_value ) {
-			if ( $option_key == 'comments-oofp' && null == get_option( 'mpp-comments-on-page' ) )
+		if ( isset( $option_value ) && '' !== $option_value ) {
+			if ( $option_key === 'comments-oofp' && false === get_option( 'mpp-comments-on-page' ) )
 				add_option( 'mpp-comments-on-page', 'first-page' );
 
-			if ( $option_key == 'unhide-pagination' && null == get_option( 'mpp-disable-standard-pagination' ) ) {
-				if ( $option_value == true ) {
+			if ( $option_key === 'unhide-pagination' && false === get_option( 'mpp-disable-standard-pagination' ) ) {
+				if ( $option_value ) {
 					add_option( 'mpp-disable-standard-pagination', 0 );
 				}
 			}
 
-			if ( $option_key == 'toc-oofp' && null == get_option( 'mpp-toc-only-on-the-first-page' ) )
+			if ( $option_key === 'toc-oofp' && false === get_option( 'mpp-toc-only-on-the-first-page' ) )
 				add_option( 'mpp-toc-only-on-the-first-page', $option_value );
 
-			if ( $option_key == 'toc-position' && null == get_option( 'mpp-toc-position' ) )
+			if ( $option_key === 'toc-position' && false === get_option( 'mpp-toc-position' ) )
 				add_option( 'mpp-toc-position', $option_value );
 
-			if ( $option_key == 'toc-page-labels' && null == get_option( 'mpp-toc-row-labels' ) ) {
-				if ( $option_value == 'pages' ) {
+			if ( $option_key === 'toc-page-labels' && false === get_option( 'mpp-toc-row-labels' ) ) {
+				if ( $option_value === 'pages' ) {
 					add_option( 'mpp-toc-row-labels', 'page' );
-				} elseif ( $option_value == 'numbers' ) {
+				} elseif ( $option_value === 'numbers' ) {
 					add_option( 'mpp-toc-row-labels', 'number' );
 				}
-				elseif ( $option_value == 'hidden' ) {
+				elseif ( $option_value === 'hidden' ) {
 					add_option( 'mpp-toc-row-labels', $option_value );
 				}
 			}
 
-			if ( $option_key == 'toc-hide-header' && null == get_option( 'mpp-hide-toc-header' ) )
+			if ( $option_key === 'toc-hide-header' && false === get_option( 'mpp-hide-toc-header' ) )
 				add_option( 'mpp-hide-toc-header', $option_value );
 
-			if ( $option_key == 'toc-comments-link' && null == get_option( 'mpp-comments-toc-link' ) )
+			if ( $option_key === 'toc-comments-link' && false === get_option( 'mpp-comments-toc-link' ) )
 				add_option( 'mpp-comments-toc-link', $option_value );
 
-			if ( $option_key == 'rewrite-title-priority' && null == get_option( '_mpp-rewrite-title-priority' ) ) {
-				if ( $option_value == 'highest' ) {
+			if ( $option_key === 'rewrite-title-priority' && false === get_option( '_mpp-rewrite-title-priority' ) ) {
+				if ( $option_value === 'highest' ) {
 					add_option( '_mpp-rewrite-title-priority', '100' );
 				}
-				elseif ( $option_value == 'high' ) {
+				elseif ( $option_value === 'high' ) {
 					add_option( '_mpp-rewrite-title-priority', '50' );
 				}
-				elseif ( $option_value == 'low' ) {
+				elseif ( $option_value === 'low' ) {
 					add_option( '_mpp-rewrite-title-priority', '10' );
 				}
-				elseif ( $option_value == 'lowest' ) {
+				elseif ( $option_value === 'lowest' ) {
 					add_option( '_mpp-rewrite-title-priority', '5' );
 				}
 			}
 
-			if ( $option_key == 'rewrite-content-priority' && null == get_option( '_mpp-rewrite-content-priority' ) ) {
-				if ( $option_value == 'highest' ) {
+			if ( $option_key === 'rewrite-content-priority' && false === get_option( '_mpp-rewrite-content-priority' ) ) {
+				if ( $option_value === 'highest' ) {
 					add_option( '_mpp-rewrite-content-priority', '100' );
 				}
-				elseif ( $option_value == 'high' ) {
+				elseif ( $option_value === 'high' ) {
 					add_option( '_mpp-rewrite-content-priority', '50' );
 				}
-				elseif ( $option_value == 'low' ) {
+				elseif ( $option_value === 'low' ) {
 					add_option( '_mpp-rewrite-content-priority', '10' );
 				}
-				elseif ( $option_value == 'lowest' ) {
+				elseif ( $option_value === 'lowest' ) {
 					add_option( '_mpp-rewrite-content-priority', '5' );
 				}
 			}
 
-			if ( $option_key == 'disable-tinymce-buttons' && null == get_option( 'mpp-disable-tinymce-buttons' ) )
+			if ( $option_key === 'disable-tinymce-buttons' && false === get_option( 'mpp-disable-tinymce-buttons' ) )
 				add_option( 'mpp-disable-tinymce-buttons', $option_value );
 		}
 	}
@@ -251,12 +251,12 @@ function mpp_add_post_multipage_meta( $update_option = true ) {
 
 	foreach ( $mpp_ids as $mpp_id ) {
 		$post = get_post( $mpp_id );
-		$_mpp_data = Multipage::multipage_return_array( $post->post_content );
+		$_mpp_data = Multipage_Parser::multipage_return_array( $post->post_content );
 		update_post_meta( $mpp_id, '_mpp_data', $_mpp_data );
 	}
 	
 	if ( $update_option === true )
-		update_option( '_mpp-postmeta-built', current_time( 'timestamp' ) );
+		update_option( '_mpp-postmeta-built', time() );
 }
 
 /** Activation Actions ********************************************************/

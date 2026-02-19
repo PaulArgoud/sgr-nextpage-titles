@@ -29,7 +29,7 @@ function mpp_admin_advanced_callback_rewrite_title_priority() {
 
 	<select id="rewrite-title-priority" name="_mpp-rewrite-title-priority" class="rewrite-title-priority">
 		<?php foreach ( $priority_choices as $priority => $value) : ?>
-			<option value="<?php echo $value; ?>" <?php selected( $value, mpp_get_rewrite_title_priority() ); ?>><?php echo esc_html( $priority ); ?></option>
+			<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, mpp_get_rewrite_title_priority() ); ?>><?php echo esc_html( $priority ); ?></option>
 		<?php endforeach; ?>
 	</select>
 	<p id="rewrite-title-description" class="description"><?php _e( 'Some plugins need this higher in order to correctly show the subpage title instead of "Page # of #". If the title works good please leave this to normal.', 'sgr-nextpage-titles' ); ?></p>
@@ -50,10 +50,10 @@ function mpp_admin_advanced_callback_rewrite_content_priority() {
 
 	<select id="rewrite-content-priority" name="_mpp-rewrite-content-priority" class="rewrite-content-priority">
 		<?php foreach ( $priority_choices as $priority => $value) : ?>
-			<option value="<?php echo $value; ?>" <?php selected( $value, mpp_get_rewrite_content_priority() ); ?>><?php echo esc_html( $priority ); ?></option>
+			<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, mpp_get_rewrite_content_priority() ); ?>><?php echo esc_html( $priority ); ?></option>
 		<?php endforeach; ?>
 	</select>
-	<p id="rewrite-content-description" class="description"><?php printf( __( 'This value affects the position where the table of contents is displayed, referring to other plugins that use <code><a href="%1$s" target="_blank">the_content</a></code> filter. e.g. above or below social buttons or related posts. If the table of contents position looks good please leave this to normal.', 'sgr-nextpage-titles' ), 'https://codex.wordpress.org/Plugin_API/Filter_Reference/the_content' ); ?></p>
+	<p id="rewrite-content-description" class="description"><?php printf( __( 'This value affects the position where the table of contents is displayed, referring to other plugins that use <code><a href="%1$s" target="_blank">the_content</a></code> filter. e.g. above or below social buttons or related posts. If the table of contents position looks good please leave this to normal.', 'sgr-nextpage-titles' ), 'https://developer.wordpress.org/reference/hooks/the_content/' ); ?></p>
 	
 <?php
 }
@@ -83,7 +83,7 @@ function mpp_admin_advanced_callback_disable_tinymce_buttons() {
 function mpp_admin_advanced_callback_build_mpp_postmeta_data() {
 ?>
 
-	<input id="postmeta-built" name="_mpp-postmeta-built" type="checkbox" value="<?php echo current_time( 'timestamp' ); ?>" />
+	<input id="postmeta-built" name="_mpp-postmeta-built" type="checkbox" value="<?php echo time(); ?>" />
 	<label for="postmeta-built"><?php _e( 'Build Multipage postmetas', 'sgr-nextpage-titles' ); ?></label>
 	<p id="postmeta-built-description" class="description"><?php _e( 'Please check this to build the Multipage postsmetas. If you see this option and were running a Multipage version < 1.4, please check this to build the required Multipage postmetas. Then this option will not display anymore.', 'sgr-nextpage-titles' ); ?></p>
 
@@ -138,7 +138,7 @@ function mpp_admin_advanced() {
 function mpp_admin_advanced_settings_save() {
 	global $wp_settings_fields;
 
-	if ( isset( $_GET['page'] ) && 'mpp-advanced-settings' == $_GET['page'] && !empty( $_POST['submit'] ) ) {
+	if ( isset( $_GET['page'] ) && 'mpp-advanced-settings' === $_GET['page'] && !empty( $_POST['submit'] ) ) {
 		check_admin_referer( 'mpp-advanced-settings-options' );
 		
 		// Because many settings are saved with checkboxes, and thus will have no values
@@ -146,16 +146,18 @@ function mpp_admin_advanced_settings_save() {
 		if ( isset( $wp_settings_fields['mpp-advanced-settings'] ) ) {
 			foreach( (array) $wp_settings_fields['mpp-advanced-settings'] as $section => $settings ) {
 				foreach( $settings as $setting_name => $setting ) {	
-					if ( $setting_name == '_mpp-postmeta-built' && isset( $_POST[$setting_name] ) ) {
+					if ( $setting_name === '_mpp-postmeta-built' && isset( $_POST[$setting_name] ) ) {
 						// Launch the Multipage postmetas building process.
 						mpp_add_post_multipage_meta( false );
 					}
-					$value = isset( $_POST[$setting_name] ) ? sanitize_text_field( wp_unslash( $_POST[$setting_name] ) ) : '';
+					$value = isset( $_POST[$setting_name] ) ? intval( wp_unslash( $_POST[$setting_name] ) ) : 0;
 
 					update_option( $setting_name, $value );
 				}
 			}
 		}
+
+		mpp_clear_options_cache();
 
 		wp_safe_redirect( add_query_arg( array( 'page' => 'mpp-advanced-settings', 'updated' => 'true' ), mpp_get_admin_url( 'options-general.php' ) ) );
 	}

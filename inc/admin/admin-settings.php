@@ -125,7 +125,7 @@ function mpp_admin_settings_callback_continue_or_prev_next() {
 
 	<select id="continue-or-prev-next" name="mpp-continue-or-prev-next" class="continue-or-prev-next">
 		<?php foreach ( $pagination_choices as $pagination => $value) : ?>
-			<option value="<?php echo $value; ?>" <?php selected( $value, mpp_get_continue_or_prev_next() ); ?>><?php echo esc_html( $pagination ); ?></option>
+			<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, mpp_get_continue_or_prev_next() ); ?>><?php echo esc_html( $pagination ); ?></option>
 		<?php endforeach; ?>
 	</select>
 
@@ -182,7 +182,7 @@ function mpp_admin_settings_callback_toc_position() {
 
 	<select id="toc-position" name="mpp-toc-position" class="toc-position">
 		<?php foreach ( $position_choices as $position => $value) : ?>
-			<option value="<?php echo $value; ?>" <?php selected( $value, mpp_get_toc_position() ); ?>><?php echo esc_html( $position ); ?></option>
+			<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, mpp_get_toc_position() ); ?>><?php echo esc_html( $position ); ?></option>
 		<?php endforeach; ?>
 	</select>
 	
@@ -294,7 +294,7 @@ function mpp_admin_settings() {
 function mpp_admin_settings_save() {
 	global $wp_settings_fields;
 
-	if ( isset( $_GET['page'] ) && 'mpp-settings' == $_GET['page'] && !empty( $_POST['submit'] ) ) {
+	if ( isset( $_GET['page'] ) && 'mpp-settings' === $_GET['page'] && !empty( $_POST['submit'] ) ) {
 		check_admin_referer( 'multipage-options' );
 		
 		// Because many settings are saved with checkboxes, and thus will have no values
@@ -309,6 +309,8 @@ function mpp_admin_settings_save() {
 			}
 		}
 		
+		mpp_clear_options_cache();
+
 		wp_safe_redirect( add_query_arg( array( 'page' => 'mpp-settings', 'updated' => 'true' ), mpp_get_admin_url( 'options-general.php' ) ) );
 	}
 }
