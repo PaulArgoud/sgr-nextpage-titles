@@ -24,18 +24,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `wp_kses_post()` escaping for subpage titles in TOC and navigation output
 - In-memory options caching (`mpp_get_option()`) to reduce repeated `get_option()` database queries
 - Strict mode on all `in_array()` calls in update routines
+- `README.md` with badges, requirements, usage documentation, and filters reference
+- `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/) format
 
 ### Changed
 
 - Replaced `$_REQUEST` with explicit `$_GET` / `$_POST` checks in `mpp_is_deactivation()`
 - Updated minimum WordPress version from 3.9 to 5.0
 - Tested with PHP 8.4
+- Regenerated `.pot` translation template (73 strings, was outdated since v1.3)
+- Default branch renamed from `master` to `main`
 
 ### Removed
 
 - Dead code: commented-out widget/premium requires, unused premium menu items, tabs, and settings
 - Italian comments and obsolete TODO annotations
 - Closing `?>` tag in `admin-functions.php`
+- `readme.txt` (replaced by `README.md`)
+- Obsolete "To Do" sections from old readme
 
 ## [1.5.12] - 2021-06-16
 
