@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // don't access directly
-};
+}
 
 /**
  * Load the Main Multipage Class 
@@ -581,7 +581,7 @@ class Multipage {
 			return $preempt;
 		
 		// Only set X-Pingback for single posts that allow pings.
-		if ( $post && pings_open( $post ) && ! headers_sent() ) {
+		if ( pings_open( $post ) && ! headers_sent() ) {
 			header( 'X-Pingback: ' . get_bloginfo( 'pingback_url', 'display' ) );
 		}
 

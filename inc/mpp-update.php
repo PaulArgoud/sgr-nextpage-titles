@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // don't access directly
-};
+}
 
 /**
  * Is this a fresh installation of Multipage?

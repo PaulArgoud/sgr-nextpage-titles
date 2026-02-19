@@ -194,7 +194,7 @@ function mpp_toc_position( $default = 'top-right' ) {
 		 *
 		 * @since 1.4
 		 *
-		 * @param string $value The table of contents positon.
+		 * @param string $value The table of contents position.
 		 */
 		return apply_filters( 'mpp_get_toc_position', mpp_get_option( 'mpp-toc-position', $default ) );
 	}
@@ -276,7 +276,7 @@ function mpp_comments_toc_link( $default = false ) {
  *
  * @since 1.4
  *
- * @param bool|string $default Optional. Default: 20 (normal).
+ * @param int $default Optional. Default: 20 (normal).
  */
 function mpp_rewrite_title_priority( $default = 20 ) {
 	echo mpp_get_rewrite_title_priority( $default );
@@ -286,7 +286,7 @@ function mpp_rewrite_title_priority( $default = 20 ) {
 	 *
 	 * @since 1.4
 	 *
-	 * @param bool|string $default Optional. Default: 20 (normal).
+	 * @param int $default Optional. Default: 20 (normal).
 	 * @return int The rewrite titles priority.
 	 */
 	function mpp_get_rewrite_title_priority( $default = 20 ) {
@@ -306,7 +306,7 @@ function mpp_rewrite_title_priority( $default = 20 ) {
  *
  * @since 1.4
  *
- * @param bool|string $default Optional. Default: 20 (normal).
+ * @param int $default Optional. Default: 20 (normal).
  */
 function mpp_rewrite_content_priority( $default = 20 ) {
 	echo mpp_get_rewrite_content_priority( $default );
@@ -316,7 +316,7 @@ function mpp_rewrite_content_priority( $default = 20 ) {
 	 *
 	 * @since 1.4
 	 *
-	 * @param bool|string $default Optional. Default: 20 (normal).
+	 * @param int $default Optional. Default: 20 (normal).
 	 * @return int The rewrite content priority.
 	 */
 	function mpp_get_rewrite_content_priority( $default = 20 ) {

@@ -18,6 +18,7 @@
  * @global int $page
  * @global int $numpages
  *
+ * @param Multipage    $multipage The Multipage instance.
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
  *
@@ -128,6 +129,7 @@ function mpp_link_pages( $multipage, $args = '' ) {
  * @global int $numpages
  * @global int $more
  *
+ * @param Multipage    $multipage The Multipage instance.
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
  *
@@ -153,7 +155,7 @@ function mpp_toc( $multipage, $args = '' ) {
 
 	$defaults = array(
 		'hide_header'	=> 0,
-		'position'		=> 'top_right',
+		'position'		=> 'top-right',
 		'comments'		=> 0,
 		'before'		=> '<nav><ul>',
 		'after'			=> '</ul></nav>',
@@ -193,12 +195,13 @@ function mpp_toc( $multipage, $args = '' ) {
 		$row .= $r['row_after'];
 
 		/**
-		 * Filters the HTML output of individual page number links.
+		 * Filters the HTML output of an individual TOC row.
 		 *
 		 * @since 1.4
 		 *
-		 * @param string $link The page number HTML output.
-		 * @param int    $i    Page number for paginated posts' page links.
+		 * @param string $row   The full row HTML output.
+		 * @param string $title The subpage title.
+		 * @param int    $i     Page number (1-based).
 		 */
 		$row = apply_filters( 'mpp_toc_pages_row', $row, $title, $i );
 

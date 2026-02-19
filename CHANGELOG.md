@@ -42,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mpp_the_content` filter docblock had wrong parameter names (`$toc_labels` instead of `$toc`) and types (`array` instead of `string`)
 - `mpp_link_pages_args` filter docblock had `@since 3.0.0` copied from WordPress core — corrected to `@since 1.4`
 - Typo « fitler » corrected to « filter » in `setup_actions()` comment
+- `mpp_toc()` default position was `'top_right'` (underscore) instead of `'top-right'` (hyphen), producing an invalid CSS class
+- `mpp_toc_pages_row` filter docblock documented 2 parameters but 3 are passed (`$row`, `$title`, `$i`)
+- Typo « positon » corrected to « position » in `mpp_get_toc_position()` filter docblock
+- `@param bool|string` corrected to `@param int` for priority option defaults in `mpp-options.php`
+- Missing `$multipage` parameter documented in `mpp_link_pages()` and `mpp_toc()` docblocks
+- Redundant `$post &&` check removed in `mpp_pre_handle_404()` — already validated above
 
 ### Added
 
@@ -68,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Redundant `is_null( $post ) || empty( $post )` simplified to `empty( $post )` in `mpp_post()`
 - `json_encode()` replaced with `wp_json_encode()` in TinyMCE `languages.php`
 - Minor formatting: added missing space in `$this->page - 1` arithmetic expression
+- Removed trailing semicolons (`};`) after ABSPATH guard closing braces in `class-mpp.php` and `mpp-update.php`
 - Gutenberg block description replaced (was "lorem ipsum" placeholder)
 - Gutenberg block script dependency changed from deprecated `wp-editor` to `wp-block-editor`
 - Frontend CSS header updated to current author and HTTPS Plugin URI
