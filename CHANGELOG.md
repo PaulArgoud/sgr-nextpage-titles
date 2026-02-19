@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.15] - Unreleased
 
+### Fixed
+
+- **XSS**: subpage title now escaped with `esc_html()` in `mpp_the_content()` output
+- `mpp_pre_handle_404()` returned `null` instead of `true`, failing to short-circuit the 404 handler
+- `versions()` called `get_option( null, 'multipage' )` with swapped arguments — corrected to `get_option( 'multipage' )`
+- `$comments_link` potentially undefined before use in `mpp_the_content()` — now initialized
+- Admin CSS enqueued without version string, preventing cache busting — now uses `MPP_VERSION`
+- `save_post` hook ran on revisions and autosaves — now filtered with `wp_is_post_revision()` / `wp_is_post_autosave()`
+- `mpp_the_title()` loaded the `wordpress-seo` text domain even when Yoast SEO was not active — now guarded with `defined( 'WPSEO_VERSION' )`
+- Double slash in `hide_comments()` path (`MPP_PLUGIN_DIR . '/index.php'`)
+- Navigation CSS class not sanitized — now uses `sanitize_html_class()`
+- Missing text domain on `__( 'Next page' )`, `__( 'Previous page' )`, and `__( 'Comments' )` in `mpp-template.php`
+- `_mpp_link_page_url()` could crash if `get_post()` returned `null` — added guard
+- Duplicate `$handle` assignment in `MPP_Admin::enqueue_scripts()`
+- Plugin URI used `http://` instead of `https://`
+- `MPP_VERSION` constant was `'1.5.14'` while plugin header declared `1.5.15`
+
+### Added
+
+- `uninstall.php` to clean up all plugin options and `_mpp_data` post meta on deletion
+- `Requires at least: 5.0` and `Requires PHP: 7.4` headers in plugin file
+- `CLAUDE.md` for Claude Code guidance
+- History section in `README.md` documenting the plugin's origins and fork lineage
+
+### Changed
+
+- `$this->version` now reads from `MPP_VERSION` constant instead of a hardcoded string
+- All `require()` calls replaced with `require_once` (without parentheses) in `class-mpp.php` and `class-mpp-admin.php`
+- `sanitize_html_class()` applied to TOC container position class
+- `mpp_is_block_editor_active()` simplified — removed unnecessary WP < 5.0 and Gutenberg plugin checks
+- TinyMCE disable setting description updated (no longer references WordPress 3.9)
+- `mpp_get_continue_or_prev_next()` called once and stored instead of twice
+
+### Removed
+
+- Obsolete WP < 4.4 title fallback in `mpp_the_title()`
+- Orphaned `<input type="checkbox">` and commented-out toggle HTML in TOC template
+- Dead `mpp_admin_settings_callback_excerpt_on_all_pages()` (called non-existent `mpp_excerpt_all_pages()`)
+- Dead `mpp_admin_settings_callback_prettylinks()` (referenced old `envire.it` URL)
+- Unused `$admin` and `$options` properties from `Multipage` class
+
 ## [1.5.14] - 2026-02-19
 
 ### Fixed

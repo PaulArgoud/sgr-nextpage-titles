@@ -45,8 +45,8 @@ function mpp_link_pages( $multipage, $args = '' ) {
 		'link_after'			=> '',
 		'continue_or_prev_next'	=> 'continue',
 		'separator'				=> ' ',
-		'nextpagelink'			=> __( 'Next page' ),
-		'previouspagelink'		=> __( 'Previous page' ),
+		'nextpagelink'			=> __( 'Next page', 'sgr-nextpage-titles' ),
+		'previouspagelink'		=> __( 'Previous page', 'sgr-nextpage-titles' ),
 		'echo'					=> 0
 	);
 
@@ -208,7 +208,7 @@ function mpp_toc( $multipage, $args = '' ) {
 		
 	// Add a link for comments.
 	if ( $r['comments'] ) {
-		$link = $r['comments'] . __( 'Comments' ) . '</a>';
+		$link = $r['comments'] . __( 'Comments', 'sgr-nextpage-titles' ) . '</a>';
 		$row = $r['link_before'] . $link . $r['link_after'];
 		$output .= $row;
 	}
@@ -265,6 +265,11 @@ function mpp_toc( $multipage, $args = '' ) {
 function _mpp_link_page_url( $i, $p = '' ) {
 	global $wp_rewrite;
 	$post = get_post();
+
+	if ( ! $post ) {
+		return '';
+	}
+
 	$query_args = array();
 
 	if ( 1 === $i ) {

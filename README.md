@@ -106,6 +106,10 @@ Translation files are located in `/languages/`. Available languages:
 
 To contribute a translation, use the `.pot` file as a template.
 
+## History
+
+This plugin was originally created by Sergio De Falco (SGr33n). The [original codebase up to version 1.3.1](https://github.com/wp-plugins/sgr-nextpage-titles) served as the foundation for this fork. From there, the plugin was maintained and extended through [version 1.5.9 on the WordPress.org SVN repository](https://plugins.svn.wordpress.org/sgr-nextpage-titles/tags/). Starting from [version 1.5.12 published on WordPress.org](https://wordpress.org/plugins/sgr-nextpage-titles/), Paul Argoud took over active development, bringing the plugin up to modern WordPress and PHP standards with continued improvements.
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.

@@ -126,16 +126,7 @@ function mpp_get_admin_tabs( $active_tab = '' ) {
  * @return bool
  */
 function mpp_is_block_editor_active() {
-    // Gutenberg plugin is installed and activated.
-    $gutenberg = ! ( false === has_filter( 'replace_editor', 'gutenberg_init' ) );
-
-    // Block editor since 5.0.
-    $block_editor = version_compare( $GLOBALS['wp_version'], '5.0-beta', '>' );
-
-    if ( ! $gutenberg && ! $block_editor ) {
-        return false;
-    }
-
+    // If the Classic Editor plugin forces the classic editor, block editor is not active.
     if ( mpp_is_classic_editor_plugin_active() ) {
         $editor_option       = get_option( 'classic-editor-replace' );
         $block_editor_active = array( 'no-replace', 'block' );

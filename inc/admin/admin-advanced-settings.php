@@ -69,7 +69,7 @@ function mpp_admin_advanced_callback_disable_tinymce_buttons() {
 
 	<input id="disable-tinymce-buttons" name="mpp-disable-tinymce-buttons" type="checkbox" value="1" <?php checked( mpp_disable_tinymce_buttons() ); ?> />
 	<label for="disable-tinymce-buttons"><?php _e( 'Disable TinyMCE Buttons', 'sgr-nextpage-titles' ); ?></label>
-	<p id="disable-tinymce-description" class="description"><?php _e( 'On older WordPress versions the Multipage buttons on TinyMCE could create problems. If you are running a WordPress version > 3.9 please leave this unchecked.', 'sgr-nextpage-titles' ); ?></p>
+	<p id="disable-tinymce-description" class="description"><?php _e( 'Disable the TinyMCE Subpage button in the classic editor. Leave unchecked unless you experience editor conflicts.', 'sgr-nextpage-titles' ); ?></p>
 
 <?php
 }

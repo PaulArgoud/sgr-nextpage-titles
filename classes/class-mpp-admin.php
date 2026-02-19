@@ -258,8 +258,6 @@ class MPP_Admin {
 
 		// Use minified libraries if SCRIPT_DEBUG is turned off
 		$suffix  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-		
-		$handle = 'multipage-admin';
 		$file = $file . $suffix . '.css';
 
 		// Enqueue the Multipage Plugin styling

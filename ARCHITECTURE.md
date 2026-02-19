@@ -10,6 +10,7 @@ sgr-nextpage-titles/
 ├── sgr-nextpage-titles.php          # Plugin entry point: defines constants, loads class-mpp.php
 ├── class-mpp.php                    # Main Multipage class (singleton): bootstrap,
 │                                    #   frontend rendering, SEO, redirects
+├── uninstall.php                    # Cleanup: removes all options and post meta on deletion
 │
 ├── classes/
 │   ├── class-mpp-admin.php          # MPP_Admin: admin menus, settings registration,
@@ -77,6 +78,7 @@ sgr-nextpage-titles/
 - Reads `_mpp_data` post meta (an associative array of `slug => title`)
 - Determines the current page index from `$wp_query->query_vars['page']`
 - Sets `$this->mpp_data`, `$this->page`, `$this->mpp_index`, `$this->mpp_pagename`
+- If the page is valid, returns `true` to short-circuit the 404 handler
 - If the page index is out of bounds, returns `$preempt` (let WP handle 404)
 
 ### 2. Early: `redirect_canonical` (priority 10)

@@ -33,17 +33,6 @@ class Multipage {
 	public $max_num_pages = 0;
 	public $mpp_pagename  = '';
 
-	/** Admin *****************************************************************/
-
-	public $admin = null;
-
-	/** Option Overload *******************************************************/
-
-	/**
-	 * @var array Optional Overloads default options retrieved from get_option().
-	 */
-	public $options = array();
-
 	/**
 	 * Main Multipage Instance.
 	 *
@@ -398,7 +387,7 @@ class Multipage {
 			return $content;
 		
 		$page_title_template = apply_filters( 'mpp_page_title_template', '<h2>%s</h2>' );
-		$page_title = mpp_hide_intro_title() && $this->page === 0 ? '' : sprintf( $page_title_template, $this->page_title );
+		$page_title = mpp_hide_intro_title() && $this->page === 0 ? '' : sprintf( $page_title_template, esc_html( $this->page_title ) );
 		$toc_labels = mpp_get_toc_row_labels();
 
 		switch ( $toc_labels ) {
@@ -416,10 +405,10 @@ class Multipage {
 				break;
 		}
 
-		if ( mpp_get_continue_or_prev_next() !== 'hidden' ) {
-			$continue_or_prev_next = mpp_get_continue_or_prev_next();
+		$continue_or_prev_next = mpp_get_continue_or_prev_next();
+		if ( $continue_or_prev_next !== 'hidden' ) {
 			$navigation = mpp_link_pages( $this, array(
-				'before'				=> '<nav class="mpp-post-navigation ' . $continue_or_prev_next . '" role="navigation"><div class="nav-links">',
+				'before'				=> '<nav class="mpp-post-navigation ' . sanitize_html_class( $continue_or_prev_next ) . '" role="navigation"><div class="nav-links">',
 				'after'					=> '</div><!-- .nav-links --></nav><!-- .mpp-post-navigation -->',
 				'continue_or_prev_next'	=> $continue_or_prev_next
 			) );
@@ -493,7 +482,7 @@ class Multipage {
 	 */
 	public function hide_comments() {
 		// Return an empty file.
-		return MPP_PLUGIN_DIR . '/index.php';
+		return MPP_PLUGIN_DIR . 'index.php';
 	}
 	
 	/**

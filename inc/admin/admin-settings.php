@@ -31,21 +31,6 @@ function mpp_admin_settings_callback_pagination_section() { }
 function mpp_admin_settings_callback_toc_section() { }
 
 /**
- * Show the excerpt on all the post pages.
- *
- * @since 1.4
- *
- */
-function mpp_admin_settings_callback_excerpt_on_all_pages() {
-?>
-
-	<input id="excerpt-all-pages" name="mpp-excerpt-all-pages" type="checkbox" value="1" <?php checked( mpp_excerpt_all_pages( true ) ); ?> />
-	<label for="excerpt-all-pages"><?php _e( 'Display the excerpt on all the post pages', 'sgr-nextpage-titles' ); ?></label>
-
-<?php
-}
-
-/**
  * Hide the intro title.
  *
  * @since 1.4
@@ -86,25 +71,6 @@ function mpp_admin_settings_callback_comments_on_page() {
 		<?php endforeach; ?>
 	</fieldset>
 	
-<?php
-}
-
-/**
- * Set pretty links.
- *
- * @since 1.5
- *
- */
-function mpp_admin_settings_callback_prettylinks() {
-?>
-
-	<input id="prettylinks" name="mpp-prettylinks" type="checkbox" value="1" disabled />
-	<label for="prettylinks">
-		<?php printf( '<a href="%s" target="blank">' . __( 'Enable pretty links', 'sgr-nextpage-titles' ) . '</a>',
-			'https://www.envire.it/wordpress/plugins/multipage/?utm_campaign=Multipage+Premium+licensing&utm_medium=link&utm_source=Multipage+Premium&utm_content=activate-prettylinks-option'
-		); ?>
-	</label>
-	<p id="mpp-prettylinks-description" class="description"><?php _e( 'E.g. <code>mysite.ext/page-name/subpage-name/</code> instead of <code>mysite.ext/page-name/2/</code>', 'sgr-nextpage-titles' ); ?></p>
 <?php
 }
 
