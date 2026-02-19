@@ -140,6 +140,10 @@ function mpp_admin_advanced_settings_save() {
 
 	if ( isset( $_GET['page'] ) && 'mpp-advanced-settings' === $_GET['page'] && !empty( $_POST['submit'] ) ) {
 		check_admin_referer( 'mpp-advanced-settings-options' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 		
 		// Because many settings are saved with checkboxes, and thus will have no values
 		// in the $_POST array when unchecked, we loop through the registered settings.

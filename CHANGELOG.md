@@ -55,11 +55,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Self-referencing `@uses enqueue_styles()` tag removed from `enqueue_styles()` docblock
 - `_mpp_link_page_url()` docblock `@param string $p Paragraph id` corrected to « Fragment identifier »
 - `in_array()` missing strict mode (`true`) in `mpp_modify_admin_menu_highlight()`
+- `mpp_toc()` docblock for `$pagelink` incorrectly described as "Link text for the previous page link" — corrected to "Page number template; `%` is replaced by the page number"
+- `mpp_link_pages()` docblock declared wrong defaults: `$before` = `<p> Pages:` / `$after` = `</p>` / `$echo` = `1|true` — corrected to `<div>` / `</div>` / `0|false`
+- `mpp_toc()` docblock declared `$echo` default as `1|true` — corrected to `0|false`
+- `mpp_toc()` docblock for `$comments` declared `@type int|bool` but actually receives an opening `<a>` tag or `0` — corrected to `string|int`
+- Unused `global $numpages` declaration removed from `mpp_toc()`
+- Dead JavaScript variable `shortcode` removed from quicktag `prompt_subtitle()` function
+- **Security**: missing `current_user_can( 'manage_options' )` check in `mpp_admin_settings_save()` and `mpp_admin_advanced_settings_save()` — added for defense-in-depth
 
 ### Added
 
 - Docblock for `_mpp_link_page()` helper function in `mpp-template.php`
-
 - `uninstall.php` to clean up all plugin options and `_mpp_data` post meta on deletion
 - `Requires at least: 5.0` and `Requires PHP: 7.4` headers in plugin file
 - History section in `README.md` documenting the plugin's origins and fork lineage
@@ -67,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `_mpp_link_page_url()` called `get_permalink()` up to 3 times — now stored in a local variable
 - `$this->version` now reads from `MPP_VERSION` constant instead of a hardcoded string
 - All `require()` calls replaced with `require_once` (without parentheses) in `class-mpp.php` and `class-mpp-admin.php`
 - `sanitize_html_class()` applied to TOC container position class

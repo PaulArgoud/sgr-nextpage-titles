@@ -308,7 +308,7 @@ class MPP_Admin {
 
 		function prompt_subtitle(e, c, ed) {
 			var subtitle = prompt( '<?php echo esc_js( __( 'Enter the subpage title', 'sgr-nextpage-titles' ) ); ?>' ),
-				shortcode, t = this;
+				t = this;
 
 			if (subtitle === null || subtitle.length < 2) return;
 

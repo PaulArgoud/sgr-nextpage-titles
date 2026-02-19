@@ -22,8 +22,8 @@
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
  *
- *     @type string       $before           		HTML or text to prepend to each link. Default is `<p> Pages:`.
- *     @type string       $after           			HTML or text to append to each link. Default is `</p>`.
+ *     @type string       $before           		HTML or text to prepend to each link. Default is `<div>`.
+ *     @type string       $after           			HTML or text to append to each link. Default is `</div>`.
  *     @type string       $link_before      		HTML or text to prepend to each link, inside the `<a>` tag.
  *                                          		Also prepended to the current item, which is not linked. Default empty.
  *     @type string       $link_after       		HTML or text to append to each Pages link inside the `<a>` tag.
@@ -32,7 +32,7 @@
  *                                          		next-previous and hidden. Default is 'continue'.
  *     @type string       $separator        		Text between pagination links. Default is ' '.
  *     @type string       $previouspagelink 		Link text for the previous page link, if available. Default is 'Previous Page'.
- *     @type int|bool     $echo             		Whether to echo or not. Accepts 1|true or 0|false. Default 1|true.
+ *     @type int|bool     $echo             		Whether to echo or not. Accepts 1|true or 0|false. Default 0|false.
  * }
  * @return string Formatted output in HTML.
  */
@@ -126,7 +126,6 @@ function mpp_link_pages( $multipage, $args = '' ) {
  * @since 1.4
  *
  * @global int $page
- * @global int $numpages
  * @global int $more
  *
  * @param Multipage    $multipage The Multipage instance.
@@ -135,7 +134,7 @@ function mpp_link_pages( $multipage, $args = '' ) {
  *
  *	   @type int|bool	  $hide_header		Whether to add the table of contents header or not.
  *	   @type string		  $position			Where to display the table of contents?
- *	   @type int|bool	  $comments			Whether to add the comments link or not.
+ *	   @type string|int	  $comments			Opening `<a>` tag for the comments link, or 0 to hide.
  *     @type string       $before           HTML or text to prepend.
  *     @type string       $after            HTML or text to append.
  *     @type string       $row_before       HTML or text to prepend to each row.
@@ -145,13 +144,13 @@ function mpp_link_pages( $multipage, $args = '' ) {
  *     @type string       $link_after       HTML or text to append to each Pages link inside the `<a>` tag.
  *                                          Also appended to the current item, which is not linked. Default empty.
  *     @type string       $separator        Text between pagination links. Default is ''.
- *     @type string       $pagelink			Link text for the previous page link, if available. Default is 'Previous Page'.
- *     @type int|bool     $echo             Whether to echo or not. Accepts 1|true or 0|false. Default 1|true.
+ *     @type string       $pagelink			Page number template; `%` is replaced by the page number. Default empty.
+ *     @type int|bool     $echo             Whether to echo or not. Accepts 1|true or 0|false. Default 0|false.
  * }
  * @return string Formatted output in HTML.
  */
 function mpp_toc( $multipage, $args = '' ) {
-	global $page, $numpages, $more;
+	global $page, $more;
 
 	$defaults = array(
 		'hide_header'	=> 0,
@@ -274,16 +273,17 @@ function _mpp_link_page_url( $i, $p = '' ) {
 	}
 
 	$query_args = array();
+	$permalink  = get_permalink();
 
 	if ( 1 === $i ) {
-		$url = get_permalink();
+		$url = $permalink;
 	} else {
 		if ( '' === get_option( 'permalink_structure' ) || in_array( $post->post_status, array( 'draft', 'pending', 'future', 'private' ), true ) )
-			$url = add_query_arg( 'page', $i, get_permalink() );
+			$url = add_query_arg( 'page', $i, $permalink );
 		elseif ( 'page' === get_option( 'show_on_front' ) && (int) get_option( 'page_on_front' ) === $post->ID )
-			$url = trailingslashit( get_permalink() ) . user_trailingslashit( "$wp_rewrite->pagination_base/" . $i, 'single_paged' );
+			$url = trailingslashit( $permalink ) . user_trailingslashit( "$wp_rewrite->pagination_base/" . $i, 'single_paged' );
 		else
-			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $i, 'single_paged' );
+			$url = trailingslashit( $permalink ) . user_trailingslashit( $i, 'single_paged' );
 	}
 
 	if ( is_preview() ) {
