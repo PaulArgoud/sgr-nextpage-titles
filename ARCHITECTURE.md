@@ -55,7 +55,7 @@ sgr-nextpage-titles/
 ```
 1. WordPress loads sgr-nextpage-titles.php
    │
-   ├── Defines: MPP_VERSION, MPP__MINIMUM_WP_VERSION, MPP__PLUGIN_DIR
+   ├── Defines: MPP_VERSION, MPP__PLUGIN_FILE
    ├── require class-mpp.php
    └── Calls multipage() → Multipage::instance()
        │

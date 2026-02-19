@@ -55,7 +55,7 @@ function mpp_link_pages( $multipage, $args = '' ) {
 	/**
 	 * Filters the arguments used in retrieving page links for paginated posts.
 	 *
-	 * @since 3.0.0
+	 * @since 1.4
 	 *
 	 * @param array $params An array of arguments for page links for paginated posts.
 	 */
@@ -299,6 +299,17 @@ function _mpp_link_page_url( $i, $p = '' ) {
 	return $url;
 }
 
+/**
+ * Helper function to build an opening `<a>` tag for a multipage link.
+ *
+ * @since 1.4
+ * @access private
+ *
+ * @param int    $i   Page number.
+ * @param string $rel Optional. Rel attribute value (e.g. 'next', 'previous'). Default empty.
+ * @param string $p   Optional. Fragment identifier (e.g. 'comments'). Default empty.
+ * @return string Opening `<a>` tag HTML.
+ */
 function _mpp_link_page( $i, $rel = '', $p = '' ) {
 	$url = _mpp_link_page_url( $i, $p );
 

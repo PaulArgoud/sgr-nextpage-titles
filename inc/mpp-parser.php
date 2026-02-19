@@ -102,7 +102,7 @@ class Multipage_Parser {
 			return $content;
 
 		// The shortcodes could be closed inside p tags, so we remove them from inside the content.
-		$content = strip_tags( $content, '<br><img><b><strong><i><code><blockquote>' );
+		$content = strip_tags( $content, array( 'br', 'img', 'b', 'strong', 'i', 'code', 'blockquote' ) );
 
 		// Also remove HTML comments (Gutenberg)
 		$result = preg_replace( '/<!--[\s\S]*?-->/', '', $content );

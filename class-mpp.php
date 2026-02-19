@@ -165,7 +165,7 @@ class Multipage {
 		// Add action on save post, moved outside is_admin to preserve working for Rest API (Gutenberg).
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 1 );
 		
-		// Add fitler pre_handle_404 in order to define if the page is 404.
+		// Add filter pre_handle_404 in order to define if the page is 404.
 		add_filter( 'pre_handle_404', array( $this, 'mpp_pre_handle_404' ), 100, 2 );
 
 		// Prevent WordPress from redirecting valid multipage subpages to the base URL.
@@ -273,15 +273,17 @@ class Multipage {
 			return;
 		}
 
-		$num_pages = count( $this->mpp_data );
+		// Normalize: WP query var 'page' is 0 for the first page, 2+ for others.
+		$current_page = $this->page > 0 ? $this->page : 1;
+		$num_pages    = count( $this->mpp_data );
 
-		if ( $this->page > 1 ) {
-			$prev_url = 1 === ( $this->page - 1 ) ? get_permalink() : _mpp_link_page_url( $this->page - 1 );
+		if ( $current_page > 1 ) {
+			$prev_url = 1 === ( $current_page - 1 ) ? get_permalink() : _mpp_link_page_url( $current_page - 1 );
 			echo '<link rel="prev" href="' . esc_url( $prev_url ) . '" />' . "\n";
 		}
 
-		if ( $this->page < $num_pages ) {
-			$next_url = _mpp_link_page_url( $this->page + 1 );
+		if ( $current_page < $num_pages ) {
+			$next_url = _mpp_link_page_url( $current_page + 1 );
 			echo '<link rel="next" href="' . esc_url( $next_url ) . '" />' . "\n";
 		}
 	}
@@ -471,10 +473,10 @@ class Multipage {
 		 *
 		 * @since 1.5.4
 		 *
-		 * @param string $output		The enhanced content.
-		 * @param string $page_title	The subpage title.
-		 * @param array  $toc_labels	The table of contents html.
-		 * @param array  $content		The original content.
+		 * @param string $output     The enhanced content.
+		 * @param string $page_title The subpage title HTML.
+		 * @param string $toc        The table of contents HTML.
+		 * @param string $content    The original content.
 		 */
 		$output = apply_filters( 'mpp_the_content', $output, $page_title, $toc, $content );
 		

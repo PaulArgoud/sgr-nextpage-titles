@@ -35,8 +35,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Operator precedence ambiguity in `versions()` — `(int)` cast applied to condition instead of ternary result
 - Incorrect `@since 1.6` docblock tags corrected to `@since 1.5` (version 1.6 does not exist)
 - Copy-paste docblock errors: `mpp_hide_intro_title()`, `mpp_toc_only_on_the_first_page()`, and `mpp_hide_toc_header()` incorrectly described as "standard WordPress pagination"
+- **SEO**: `rel=next` link on the first page pointed to itself instead of page 2 — normalized page index in `mpp_rel_links()`
+- `mpp_the_content` filter docblock had wrong parameter names (`$toc_labels` instead of `$toc`) and types (`array` instead of `string`)
+- `mpp_link_pages_args` filter docblock had `@since 3.0.0` copied from WordPress core — corrected to `@since 1.4`
+- Typo « fitler » corrected to « filter » in `setup_actions()` comment
 
 ### Added
+
+- Docblock for `_mpp_link_page()` helper function in `mpp-template.php`
 
 - `uninstall.php` to clean up all plugin options and `_mpp_data` post meta on deletion
 - `Requires at least: 5.0` and `Requires PHP: 7.4` headers in plugin file
@@ -54,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mpp_get_toc_position()` called once and stored instead of three times in `mpp_the_content()`
 - `mpp_get_comments_on_page()` called once and stored instead of twice in `mpp_post()`
 - `constant('MPP_PLUGIN_DIR')` / `constant('MPP_PLUGIN_URL')` replaced with direct constant access in `setup_globals()`
+- `strip_tags()` string allowlist updated to array form (recommended since PHP 7.4) in `Multipage_Parser`
 - Gutenberg block description replaced (was "lorem ipsum" placeholder)
 - Gutenberg block script dependency changed from deprecated `wp-editor` to `wp-block-editor`
 - Frontend CSS header updated to current author and HTTPS Plugin URI
@@ -69,6 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dead `mpp_uninstall()` function in `mpp-update.php` (replaced by `uninstall.php`)
 - Orphaned `.toctogglespan` CSS rule (toggle was removed from PHP)
 - Dead `mpp_get_default_options()` function (never called, option keys used underscores instead of hyphens)
+- Unused `MPP__MINIMUM_WP_VERSION` constant (minimum WP version already declared in plugin header)
+- Redundant `MPP__PLUGIN_DIR` constant (same value as `MPP_PLUGIN_DIR`, only used once — inlined)
 
 ## [1.5.14] - 2026-02-19
 

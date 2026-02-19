@@ -19,8 +19,6 @@ if ( !function_exists( 'add_action' ) ) {
 }
 
 define( 'MPP_VERSION', '1.5.15' );
-define( 'MPP__MINIMUM_WP_VERSION', '5.0' );
-define( 'MPP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MPP__PLUGIN_FILE', __FILE__ );
 
 /**
@@ -32,7 +30,7 @@ function multipage() {
 	return Multipage::instance();
 }
 
-require_once MPP__PLUGIN_DIR . 'class-mpp.php';
+require_once plugin_dir_path( __FILE__ ) . 'class-mpp.php';
 
 // Start
 multipage();
