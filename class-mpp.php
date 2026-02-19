@@ -109,7 +109,7 @@ class Multipage {
 
 		/** Versions **********************************************************/
 
-		$this->version    = '1.5.15';
+		$this->version    = MPP_VERSION;
 		$this->db_version = 1000;
 		
 		/** Paths *************************************************************/
@@ -140,16 +140,16 @@ class Multipage {
 			add_action( 'init', 'mpp_admin' );
 		}
 
-		require( $this->plugin_dir . 'classes/class-mpp-admin.php'  );
-		require( $this->plugin_dir . 'classes/class-mpp-shortcodes.php'  );
+		require_once $this->plugin_dir . 'classes/class-mpp-admin.php';
+		require_once $this->plugin_dir . 'classes/class-mpp-shortcodes.php';
 
-		require( $this->plugin_dir . 'inc/mpp-admin.php'            );
-		require( $this->plugin_dir . 'inc/mpp-functions.php'        );
-		require( $this->plugin_dir . 'inc/mpp-options.php'          );
-		require( $this->plugin_dir . 'inc/mpp-parser.php'           );
-		require( $this->plugin_dir . 'inc/mpp-shortcodes.php'       );
-		require( $this->plugin_dir . 'inc/mpp-template.php'         );
-		require( $this->plugin_dir . 'inc/mpp-update.php'           );
+		require_once $this->plugin_dir . 'inc/mpp-admin.php';
+		require_once $this->plugin_dir . 'inc/mpp-functions.php';
+		require_once $this->plugin_dir . 'inc/mpp-options.php';
+		require_once $this->plugin_dir . 'inc/mpp-parser.php';
+		require_once $this->plugin_dir . 'inc/mpp-shortcodes.php';
+		require_once $this->plugin_dir . 'inc/mpp-template.php';
+		require_once $this->plugin_dir . 'inc/mpp-update.php';
 	}
 	
 	/**
@@ -293,9 +293,10 @@ class Multipage {
 	}
 
 	public function save_post( $post_id ) {
-		// If this is just a revision or a (auto)draft, don't change the post meta.
-		//if ( wp_is_post_revision( $post_id ) || 'draft' == get_post_status( $post_id ) || 'auto-draft' == get_post_status( $post_id ) )
-		//	return;
+		// Skip revisions and autosaves.
+		if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+			return;
+		}
 
 		$key = '_mpp_data';
 		$post = get_post( $post_id );
@@ -339,7 +340,7 @@ class Multipage {
 	private function versions() {
 		// Get the possible DB versions.
 		$versions               = array();
-		$versions['1.3']		= null !== get_option( null, 'multipage' ) ? 999 : null; // If we found a multipage option then it's an update from the 1.3 version.
+		$versions['1.3']		= false !== get_option( 'multipage' ) ? 999 : null; // If we found a multipage option then it's an update from the 1.3 version.
 		
 		// Remove empty array items
 		$versions				= array_filter( $versions );
@@ -357,11 +358,10 @@ class Multipage {
  	 * @return string the title modified by Multipage.
 	 */
 	public function mpp_the_title( $title ) {
-		// Eventually, manipulate WordPress SEO by Yoast custom title.
-		$title = str_replace( sprintf( __( 'Page %1$d of %2$d', 'wordpress-seo' ), $this->page, $this->max_num_pages ), $this->page_title, $title );
-		
-		// Manipulate Theme standard title (WP < 4.4).
-		$title = str_replace( sprintf( __( 'Page %s', wp_get_theme()->get( 'TextDomain' ) ), $this->page ), $this->page_title, $title );
+		// Manipulate WordPress SEO by Yoast custom title, if active.
+		if ( defined( 'WPSEO_VERSION' ) ) {
+			$title = str_replace( sprintf( __( 'Page %1$d of %2$d', 'wordpress-seo' ), $this->page, $this->max_num_pages ), $this->page_title, $title );
+		}
 
 		return $title;
 	}
@@ -428,6 +428,7 @@ class Multipage {
 		}
 		
 		// Get comments link
+		$comments_link = '';
 		if ( mpp_comments_toc_link() ) {
 			switch ( mpp_get_comments_on_page() ) {
 				case 'all':
@@ -447,7 +448,7 @@ class Multipage {
 
 		$toc = mpp_toc( $this, array(
 			'hide_header'	=> mpp_hide_toc_header(),
-			'comments'		=> isset( $comments_link ) ? $comments_link : '',
+			'comments'		=> $comments_link,
 			'position'		=> mpp_get_toc_position(),
 			'before'		=> '<nav class="mpp-toc toc"><ul>',
 			'after'			=> '</ul></nav>',
@@ -595,6 +596,6 @@ class Multipage {
 
 		$this->mpp_pagename = $_mpp_page_keys[ $this->mpp_index ];
 
-		return;
+		return true;
 	}
 }

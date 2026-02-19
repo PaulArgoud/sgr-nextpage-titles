@@ -76,10 +76,10 @@ class MPP_Admin {
 	 * @since 1.4
 	 */
 	private function includes() {
-		require( $this->admin_dir . 'admin-actions.php'              );
-		require( $this->admin_dir . 'admin-functions.php'            );
-		require( $this->admin_dir . 'admin-settings.php'             );
-		require( $this->admin_dir . 'admin-advanced-settings.php'    );
+		require_once $this->admin_dir . 'admin-actions.php';
+		require_once $this->admin_dir . 'admin-functions.php';
+		require_once $this->admin_dir . 'admin-settings.php';
+		require_once $this->admin_dir . 'admin-advanced-settings.php';
 	}
 
 	/**
@@ -263,7 +263,7 @@ class MPP_Admin {
 		$file = $file . $suffix . '.css';
 
 		// Enqueue the Multipage Plugin styling
-		wp_enqueue_style( $handle, trailingslashit( MPP_PLUGIN_URL ) . $file, array(), '', 'screen' );
+		wp_enqueue_style( $handle, trailingslashit( MPP_PLUGIN_URL ) . $file, array(), MPP_VERSION, 'screen' );
 	}
 
 	/**

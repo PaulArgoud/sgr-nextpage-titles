@@ -215,27 +215,22 @@ function mpp_toc( $multipage, $args = '' ) {
 
 	$output .= $r['after'];
 
-	$container_class = isset( $r['position'] ) && $r['position'] !== '' ? ' ' . $r['position'] : '';
+	$container_class = isset( $r['position'] ) && $r['position'] !== '' ? ' ' . sanitize_html_class( $r['position'] ) : '';
 	$template = '
 	<div class="mpp-toc-container' . $container_class . '">';
 
 	// Add header.
 	if ( ! $r['hide_header'] ) {
 		$template .= '<div class="mpp-toc-title">
-			<input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display: none">
 			<h2>%1$s</h2>
-			<!-- <span class="toctogglespan">
-				<label class="toctogglelabel" for="toctogglecheckbox">%2$s</label>
-			</span> -->
 		</div>';
 	}
 	
-	$template .= '%3$s</div>';
+	$template .= '%2$s</div>';
 	
 	$output = sprintf(
 		$template,
 		__( 'Contents', 'sgr-nextpage-titles' ),
-		__( 'Hide', 'sgr-nextpage-titles' ),
 		$output
 	);
 	
