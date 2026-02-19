@@ -47,86 +47,22 @@ function mpp_clear_options_cache() {
 }
 
 /**
- * Get the default site options and their values.
- *
- * @since 1.4
- *
- * @return array Filtered option names and values.
- */
-function mpp_get_default_options() {
-
-	// Default options.
-	$options = array (
-	
-		/* Main Settings ******************************************************/
-		
-		// Hide the intro title.
-		'mpp_hide_intro_title'				=> false,
-		
-		// Decide on what page show the comments.
-		'mpp_comments_on_page'				=> 'all',
-		
-		// Use the continue or the prev next pagination.
-		'mpp_continue_or_prev_next'			=> 'continue',
-		
-		// Disable the standard pagination.
-		'mpp_disable_standard_pagination'	=> true,
-		
-		// Show the table of contents only on the first page of the post.
-		'mpp_toc_only_on_the_first_page'	=> false,
-		
-		// Set the table of contents position.
-		'mpp_toc_position'					=> 'top-right',
-
-		// Set the table of contents position.
-		'mpp_toc_row_labels'				=> 'number',
-		
-		// Hide the table of contents header.
-		'mpp_hide_toc_header'				=> false,
-		
-		// Add a link for the comments inside the table of contents.
-		'mpp_comments_toc_link'				=> false,
-		
-		/* Advanced Settings **************************************************/
-		
-		// Rewrite Title Priority.
-		'mpp_rewrite_title_priority'		=> 20,
-		
-		// Rewrite Content Priority.
-		'mpp_rewrite_content_priority'		=> 20,
-		
-		// Disable TinyMCE Buttons.
-		'mpp_disable_tinymce_buttons'		=> false
-		
-	);
-	
-	/**
-	 * Filters the default options to be set upon activation.
-	 *
-	 * @since 1.4
-	 *
-	 * @param array $options Array of default options to set.
-	 */
-	return apply_filters( 'mpp_get_default_options', $options );
-}
-
-/**
- * Is the standard WordPress pagination disabled on multipage posts?
+ * Is the intro title hidden on multipage posts?
  *
  * @since 1.4
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: false.
- * @return bool true if the standard WordPress pagination should be hidden otherwise false.
+ * @return bool True if the intro title should be hidden, otherwise false.
  */
 function mpp_hide_intro_title( $default = false ) {
 
 	/**
-	 * Filters whether or not the standard WordPress pagination is disabled.
+	 * Filters whether or not the intro title is hidden.
 	 *
 	 * @since 1.4
 	 *
-	 * @param bool $value Whether the standard pagination is disabled.
+	 * @param bool $value Whether the intro title is hidden.
 	 */
 	return (bool) apply_filters( 'mpp_hideintro_title', (bool) mpp_get_option( 'mpp-hide-intro-title', $default ) );
 }
@@ -224,11 +160,11 @@ function mpp_disable_standard_pagination( $default = true ) {
 function mpp_toc_only_on_the_first_page( $default = false ) {
 
 	/**
-	 * Filters whether or not the standard WordPress pagination is disabled.
+	 * Filters whether or not the table of contents is displayed only on the first page.
 	 *
 	 * @since 1.4
 	 *
-	 * @param bool $value Whether the standard pagination is disabled.
+	 * @param bool $value Whether the table of contents is only on the first page.
 	 */
 	return (bool) apply_filters( 'mpp_toc_only_on_the_first_page', (bool) mpp_get_option( 'mpp-toc-only-on-the-first-page', $default ) );
 }
@@ -305,11 +241,11 @@ function mpp_toc_row_labels( $default = 'number' ) {
 function mpp_hide_toc_header( $default = false ) {
 
 	/**
-	 * Filters whether or not the standard WordPress pagination is disabled.
+	 * Filters whether or not the table of contents header is hidden.
 	 *
 	 * @since 1.4
 	 *
-	 * @param bool $value Whether table of contents header is hidden.
+	 * @param bool $value Whether the table of contents header is hidden.
 	 */
 	return (bool) apply_filters( 'mpp_hide_toc_header', (bool) mpp_get_option( 'mpp-hide-toc-header', $default ) );
 }

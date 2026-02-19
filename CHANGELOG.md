@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `multipage_return_array()` returned an empty array instead of `false` when no valid shortcodes were found
 - "Build Multipage postmetas" only found shortcode posts — now also detects Gutenberg block posts
 - Plugin action links detection used fragile `/trunk` path hack — now uses `plugin_basename()`
+- **Security**: missing `exit` after `wp_safe_redirect()` in both settings save functions — PHP continued executing after redirect
+- `esc_html()` used instead of `esc_attr()` on radio input `value` attributes in settings page
+- Operator precedence ambiguity in `versions()` — `(int)` cast applied to condition instead of ternary result
+- Incorrect `@since 1.6` docblock tags corrected to `@since 1.5` (version 1.6 does not exist)
+- Copy-paste docblock errors: `mpp_hide_intro_title()`, `mpp_toc_only_on_the_first_page()`, and `mpp_hide_toc_header()` incorrectly described as "standard WordPress pagination"
 
 ### Added
 
@@ -46,6 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mpp_is_block_editor_active()` simplified — removed unnecessary WP < 5.0 and Gutenberg plugin checks
 - TinyMCE disable setting description updated (no longer references WordPress 3.9)
 - `mpp_get_continue_or_prev_next()` called once and stored instead of twice
+- `mpp_get_toc_position()` called once and stored instead of three times in `mpp_the_content()`
+- `mpp_get_comments_on_page()` called once and stored instead of twice in `mpp_post()`
+- `constant('MPP_PLUGIN_DIR')` / `constant('MPP_PLUGIN_URL')` replaced with direct constant access in `setup_globals()`
 - Gutenberg block description replaced (was "lorem ipsum" placeholder)
 - Gutenberg block script dependency changed from deprecated `wp-editor` to `wp-block-editor`
 - Frontend CSS header updated to current author and HTTPS Plugin URI
@@ -60,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dead widget files: `class-mpp-table-of-contents-widget.php` and `mpp-widgets.php` (never loaded, non-functional)
 - Dead `mpp_uninstall()` function in `mpp-update.php` (replaced by `uninstall.php`)
 - Orphaned `.toctogglespan` CSS rule (toggle was removed from PHP)
+- Dead `mpp_get_default_options()` function (never called, option keys used underscores instead of hyphens)
 
 ## [1.5.14] - 2026-02-19
 

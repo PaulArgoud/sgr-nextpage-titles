@@ -160,6 +160,7 @@ function mpp_admin_advanced_settings_save() {
 		mpp_clear_options_cache();
 
 		wp_safe_redirect( add_query_arg( array( 'page' => 'mpp-advanced-settings', 'updated' => 'true' ), mpp_get_admin_url( 'options-general.php' ) ) );
+		exit;
 	}
 }
 add_action( 'admin_init', 'mpp_admin_advanced_settings_save', 100 );

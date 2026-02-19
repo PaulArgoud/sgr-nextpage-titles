@@ -64,7 +64,7 @@ function mpp_admin_settings_callback_comments_on_page() {
 		</legend>
 		<?php foreach ( $comments_choices as $comments => $value) : ?>
 		<label>
-			<input type="radio" name="mpp-comments-on-page" value="<?php echo esc_html( $value ); ?>" <?php checked( $value, mpp_get_comments_on_page() ); ?> />
+			<input type="radio" name="mpp-comments-on-page" value="<?php echo esc_attr( $value ); ?>" <?php checked( $value, mpp_get_comments_on_page() ); ?> />
 				<?php echo esc_html( $comments ); ?>
 		</label>
 		<br />
@@ -175,7 +175,7 @@ function mpp_admin_settings_callback_toc_row_labels() {
 		</legend>
 		<?php foreach ( $label_choices as $label => $value) : ?>
 		<label>
-			<input type="radio" name="mpp-toc-row-labels" value="<?php echo esc_html( $value ); ?>" <?php checked( $value, mpp_get_toc_row_labels() ); ?> />
+			<input type="radio" name="mpp-toc-row-labels" value="<?php echo esc_attr( $value ); ?>" <?php checked( $value, mpp_get_toc_row_labels() ); ?> />
 				<?php echo esc_html( $label ); ?>
 		</label>
 		<br />
@@ -278,6 +278,7 @@ function mpp_admin_settings_save() {
 		mpp_clear_options_cache();
 
 		wp_safe_redirect( add_query_arg( array( 'page' => 'mpp-settings', 'updated' => 'true' ), mpp_get_admin_url( 'options-general.php' ) ) );
+		exit;
 	}
 }
 add_action( 'admin_init', 'mpp_admin_settings_save', 100 );

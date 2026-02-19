@@ -107,10 +107,10 @@ class Multipage {
 		
 		/** Paths *************************************************************/
 
-		$this->file           = constant( 'MPP_PLUGIN_DIR' ) . 'sgr-nextpage-titles.php';
-		$this->basename       = basename( constant( 'MPP_PLUGIN_DIR' ) ) . '/sgr-nextpage-titles.php';
-		$this->plugin_dir     = trailingslashit( constant( 'MPP_PLUGIN_DIR' ) );
-		$this->plugin_url     = trailingslashit( constant( 'MPP_PLUGIN_URL' ) );
+		$this->file           = MPP_PLUGIN_DIR . 'sgr-nextpage-titles.php';
+		$this->basename       = basename( MPP_PLUGIN_DIR ) . '/sgr-nextpage-titles.php';
+		$this->plugin_dir     = trailingslashit( MPP_PLUGIN_DIR );
+		$this->plugin_url     = trailingslashit( MPP_PLUGIN_URL );
 		
 		/** Multipage Data ****************************************************/
 		
@@ -208,7 +208,8 @@ class Multipage {
 			add_filter( 'wp_link_pages_args', array( $this, 'hide_standard_pagination' ) );
 
 		// Check whether or not to hide comments.
-		if ( ( $this->page !== 0 && mpp_get_comments_on_page() === 'first-page' ) || ( $this->page !== count( $_mpp_page_keys ) && mpp_get_comments_on_page() === 'last-page' ) )
+		$comments_on_page = mpp_get_comments_on_page();
+		if ( ( $this->page !== 0 && $comments_on_page === 'first-page' ) || ( $this->page !== count( $_mpp_page_keys ) && $comments_on_page === 'last-page' ) )
 			add_filter( 'comments_template', array( $this, 'hide_comments' ) );
 
 		// Initialize variables
@@ -340,7 +341,7 @@ class Multipage {
 		
 		// Remove empty array items
 		$versions				= array_filter( $versions );
-		$this->db_version_raw	= (int) ( !empty( $versions ) ) ? (int) max( $versions ) : 0;
+		$this->db_version_raw	= ! empty( $versions ) ? (int) max( $versions ) : 0;
 	}
 
 	/**
@@ -396,6 +397,7 @@ class Multipage {
 		$page_title_template = apply_filters( 'mpp_page_title_template', '<h2>%s</h2>' );
 		$page_title = mpp_hide_intro_title() && $this->page === 0 ? '' : sprintf( $page_title_template, esc_html( $this->page_title ) );
 		$toc_labels = mpp_get_toc_row_labels();
+		$toc_position = mpp_get_toc_position();
 
 		switch ( $toc_labels ) {
 			case 'page':
@@ -445,7 +447,7 @@ class Multipage {
 		$toc = mpp_toc( $this, array(
 			'hide_header'	=> mpp_hide_toc_header(),
 			'comments'		=> $comments_link,
-			'position'		=> mpp_get_toc_position(),
+			'position'		=> $toc_position,
 			'before'		=> '<nav class="mpp-toc toc" aria-label="' . esc_attr__( 'Table of contents', 'sgr-nextpage-titles' ) . '"><ul>',
 			'after'			=> '</ul></nav>',
 			'separator'		=> $toc_row_separator,
@@ -456,9 +458,9 @@ class Multipage {
 		$output = $page_title;
 		
 		// Add the table of content
-		if ( mpp_get_toc_position() === 'bottom' ) {
+		if ( $toc_position === 'bottom' ) {
 			$output .= $content . $toc;
-		} elseif ( mpp_get_toc_position() === 'hidden' || ( mpp_toc_only_on_the_first_page() && $this->page > 1 ) ) {
+		} elseif ( $toc_position === 'hidden' || ( mpp_toc_only_on_the_first_page() && $this->page > 1 ) ) {
 			$output .= $content;
 		} else {
 			$output .= $toc . $content;
@@ -558,7 +560,7 @@ class Multipage {
 	 * Returning a non-false value from the filter will short-circuit the handling
 	 * and return early.
 	 *
-	 * @since 1.6
+	 * @since 1.5
 	 *
 	 * @param bool     $preempt  Whether to short-circuit default header status handling. Default false.
 	 * @param WP_Query $wp_query WordPress Query object.

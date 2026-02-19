@@ -20,7 +20,7 @@ sgr-nextpage-titles/
 ├── inc/
 │   ├── mpp-admin.php                # Bootstraps MPP_Admin (creates the instance)
 │   ├── mpp-functions.php            # Version getters, text domain loading
-│   ├── mpp-options.php              # Option getters with in-memory caching, default values
+│   ├── mpp-options.php              # Option getters with in-memory caching
 │   ├── mpp-parser.php              # Multipage_Parser: content parsing (Gutenberg + shortcodes)
 │   ├── mpp-shortcodes.php           # Initializes Multipage_Plugin_Shortcodes
 │   ├── mpp-template.php             # Navigation links (mpp_link_pages) and TOC (mpp_toc) rendering
@@ -190,7 +190,6 @@ All options are accessed through `mpp_get_option()` which provides in-memory cac
 | Filter | Location | Description |
 |--------|----------|-------------|
 | `mpp_get_admin_tabs` | `admin-functions.php` | Add or remove admin settings tabs |
-| `mpp_get_default_options` | `mpp-options.php` | Default option values |
 
 ## Editors Integration
 

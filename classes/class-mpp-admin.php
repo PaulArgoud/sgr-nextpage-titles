@@ -161,7 +161,7 @@ class MPP_Admin {
 	/**
 	 * Register the settings.
 	 *
-	 * @since 1.6.0
+	 * @since 1.5
 	 *
 	 */
 	public function register_admin_settings() {
