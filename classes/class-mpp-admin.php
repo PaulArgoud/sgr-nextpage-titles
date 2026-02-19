@@ -25,14 +25,6 @@ class MPP_Admin {
 	/** Other *****************************************************************/
 
 	/**
-	 * Notices used for user feedback, like saving settings.
-	 *
-	 * @since 1.4
-	 * @var array
-	 */
-	public $notices = array();
-
-	/**
 	 * Main settings page slug.
 	 *
 	 * @since 1.5

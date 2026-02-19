@@ -172,10 +172,24 @@ class Multipage {
 		add_filter( 'redirect_canonical', array( $this, 'mpp_redirect_canonical' ), 10, 2 );
 	}
 
+	/**
+	 * Register frontend hooks.
+	 *
+	 * @since 1.5
+	 */
 	private function frontend_init() {
 		add_action( 'wp', array( $this, 'mpp_post' ) );
 	}
 
+	/**
+	 * Set up multipage post data and register content filters.
+	 *
+	 * Runs on the 'wp' action. Processes the post content to replace
+	 * Gutenberg blocks and shortcodes with standard nextpage markers,
+	 * then registers title, content, style, and SEO filters.
+	 *
+	 * @since 1.5
+	 */
 	public function mpp_post() {
 		global $wp_query;
 
@@ -325,6 +339,9 @@ class Multipage {
 	 * Hide the standard pagination.
 	 *
 	 * @since 0.6
+	 *
+	 * @param array $args The wp_link_pages() arguments.
+	 * @return array Modified arguments with echo disabled.
 	 */
 	public static function hide_standard_pagination( $args ) {
 		$args['echo'] = 0;
@@ -468,7 +485,7 @@ class Multipage {
 			$output .= $toc . $content;
 		}
 
-		/*
+		/**
 		 * Filters the multipage post content.
 		 *
 		 * @since 1.5.4
@@ -565,6 +582,7 @@ class Multipage {
 	 *
 	 * @param bool     $preempt  Whether to short-circuit default header status handling. Default false.
 	 * @param WP_Query $wp_query WordPress Query object.
+	 * @return bool Whether to short-circuit default header status handling.
 	 */
 	public function mpp_pre_handle_404( $preempt, $wp_query ) {
 		$post = isset( $wp_query->post ) ? $wp_query->post : null;

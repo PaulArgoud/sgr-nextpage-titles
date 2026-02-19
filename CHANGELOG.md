@@ -62,9 +62,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unused `global $numpages` declaration removed from `mpp_toc()`
 - Dead JavaScript variable `shortcode` removed from quicktag `prompt_subtitle()` function
 - **Security**: missing `current_user_can( 'manage_options' )` check in `mpp_admin_settings_save()` and `mpp_admin_advanced_settings_save()` — added for defense-in-depth
+- `mpp_the_content` filter docblock started with `/*` instead of `/**`, invisible to PHPDoc
+- `hide_standard_pagination()` docblock missing `@param` and `@return` tags
+- `mpp_pre_handle_404()` docblock missing `@return` tag
+- `mpp_add_post_multipage_meta()` docblock missing `@param` for `$update_option`
 
 ### Added
 
+- Docblocks for `frontend_init()` and `mpp_post()` methods in `Multipage` class
 - Docblock for `_mpp_link_page()` helper function in `mpp-template.php`
 - `uninstall.php` to clean up all plugin options and `_mpp_data` post meta on deletion
 - `Requires at least: 5.0` and `Requires PHP: 7.4` headers in plugin file
@@ -73,6 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `_e()` replaced with `esc_html_e()` in admin settings templates (17 occurrences) for translation security
 - `_mpp_link_page_url()` called `get_permalink()` up to 3 times — now stored in a local variable
 - `$this->version` now reads from `MPP_VERSION` constant instead of a hardcoded string
 - All `require()` calls replaced with `require_once` (without parentheses) in `class-mpp.php` and `class-mpp-admin.php`
@@ -99,6 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Orphaned `<input type="checkbox">` and commented-out toggle HTML in TOC template
 - Dead `mpp_admin_settings_callback_excerpt_on_all_pages()` (called non-existent `mpp_excerpt_all_pages()`)
 - Dead `mpp_admin_settings_callback_prettylinks()` (referenced old `envire.it` URL)
+- Unused `$notices` property from `MPP_Admin` class
 - Unused `$options` property from `Multipage` class
 - Dead widget files: `class-mpp-table-of-contents-widget.php` and `mpp-widgets.php` (never loaded, non-functional)
 - Dead `mpp_uninstall()` function in `mpp-update.php` (replaced by `uninstall.php`)

@@ -242,6 +242,8 @@ function mpp_update_to_1_4() {
  * Update WP postsmeta with a new value for multipage posts that will contain all relevant infos about subpages.
  *
  * @since 1.4
+ *
+ * @param bool $update_option Whether to update the '_mpp-postmeta-built' option. Default true.
  */
 function mpp_add_post_multipage_meta( $update_option = true ) {
 	global $wpdb;

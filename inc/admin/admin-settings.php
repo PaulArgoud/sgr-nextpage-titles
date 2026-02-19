@@ -40,7 +40,7 @@ function mpp_admin_settings_callback_hide_intro_title() {
 ?>
 
 	<input id="hide-intro-title" name="mpp-hide-intro-title" type="checkbox" value="1" <?php checked( mpp_hide_intro_title( false ) ); ?> />
-	<label for="hide-intro-title"><?php _e( 'Hide the default intro title', 'sgr-nextpage-titles' ); ?></label>
+	<label for="hide-intro-title"><?php esc_html_e( 'Hide the default intro title', 'sgr-nextpage-titles' ); ?></label>
 
 <?php
 }
@@ -60,7 +60,7 @@ function mpp_admin_settings_callback_comments_on_page() {
 ?>
 	<fieldset id="comments-on-page">
 		<legend class="screen-reader-text">
-			<span><?php _e( 'Display comments on', 'sgr-nextpage-titles' ); ?></span>
+			<span><?php esc_html_e( 'Display comments on', 'sgr-nextpage-titles' ); ?></span>
 		</legend>
 		<?php foreach ( $comments_choices as $comments => $value) : ?>
 		<label>
@@ -108,8 +108,8 @@ function mpp_admin_settings_callback_disable_standard_pagination() {
 ?>
 
 	<input id="disable-standard-pagination" name="mpp-disable-standard-pagination" type="checkbox" value="1" <?php checked( mpp_disable_standard_pagination( true ) ); ?> />
-	<label for="disable-standard-pagination"><?php _e( 'Disable the WordPress standard pagination', 'sgr-nextpage-titles' ); ?></label>
-	<p id="mpp-disable-standard-pagination-description" class="description"><?php _e( 'WordPress, by default, displays a pagination with only numbers on standard multipage posts. Please uncheck this if you still want the standard pagination to display on multipage posts.', 'sgr-nextpage-titles' ); ?></p>
+	<label for="disable-standard-pagination"><?php esc_html_e( 'Disable the WordPress standard pagination', 'sgr-nextpage-titles' ); ?></label>
+	<p id="mpp-disable-standard-pagination-description" class="description"><?php esc_html_e( 'WordPress, by default, displays a pagination with only numbers on standard multipage posts. Please uncheck this if you still want the standard pagination to display on multipage posts.', 'sgr-nextpage-titles' ); ?></p>
 
 <?php
 }
@@ -124,7 +124,7 @@ function mpp_admin_settings_callback_toc_only_on_the_first_page() {
 ?>
 
 	<input id="toc-only-on-the-first-page" name="mpp-toc-only-on-the-first-page" type="checkbox" value="1" <?php checked( mpp_toc_only_on_the_first_page( false ) ); ?> />
-	<label for="toc-only-on-the-first-page"><?php _e( 'Display the table of contents only on the first page of the post', 'sgr-nextpage-titles' ); ?></label>
+	<label for="toc-only-on-the-first-page"><?php esc_html_e( 'Display the table of contents only on the first page of the post', 'sgr-nextpage-titles' ); ?></label>
 
 <?php
 }
@@ -171,7 +171,7 @@ function mpp_admin_settings_callback_toc_row_labels() {
 ?>
 	<fieldset id="row-labels">
 		<legend class="screen-reader-text">
-			<span><?php _e( 'Row labels', 'sgr-nextpage-titles' ); ?></span>
+			<span><?php esc_html_e( 'Row labels', 'sgr-nextpage-titles' ); ?></span>
 		</legend>
 		<?php foreach ( $label_choices as $label => $value) : ?>
 		<label>
@@ -195,7 +195,7 @@ function mpp_admin_settings_callback_hide_toc_header() {
 ?>
 
 	<input id="hide-toc-header" name="mpp-hide-toc-header" type="checkbox" value="1" <?php checked( mpp_hide_toc_header( false ) ); ?> />
-	<label for="hide-toc-header"><?php _e( 'Hide the table of contents header', 'sgr-nextpage-titles' ); ?></label>
+	<label for="hide-toc-header"><?php esc_html_e( 'Hide the table of contents header', 'sgr-nextpage-titles' ); ?></label>
 	
 <?php
 }
@@ -210,8 +210,8 @@ function mpp_admin_settings_callback_comments_toc_link() {
 ?>
 
 	<input id="comments-toc-link" name="mpp-comments-toc-link" type="checkbox" value="1" <?php checked( mpp_comments_toc_link( false ) ); ?> />
-	<label for="comments-toc-link"><?php _e( 'Add a link for the comments inside the table of contents', 'sgr-nextpage-titles' ); ?></label>
-	<p id="mpp-comments-toc-link-description" class="description"><?php _e( 'If comments are enabled, this will display, inside the table of contents, a link for the comments list.', 'sgr-nextpage-titles' ); ?></p>
+	<label for="comments-toc-link"><?php esc_html_e( 'Add a link for the comments inside the table of contents', 'sgr-nextpage-titles' ); ?></label>
+	<p id="mpp-comments-toc-link-description" class="description"><?php esc_html_e( 'If comments are enabled, this will display, inside the table of contents, a link for the comments list.', 'sgr-nextpage-titles' ); ?></p>
 
 <?php
 }
@@ -232,7 +232,7 @@ function mpp_admin_settings() {
 
 	<div class="wrap">
 
-		<h1><?php _e( 'Multipage Settings', 'sgr-nextpage-titles' ); ?> </h1>
+		<h1><?php esc_html_e( 'Multipage Settings', 'sgr-nextpage-titles' ); ?> </h1>
 		
 		<h2 class="nav-tab-wrapper"><?php mpp_admin_tabs( __( 'Options', 'sgr-nextpage-titles' ) ); ?></h2>
 

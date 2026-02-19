@@ -32,7 +32,7 @@ function mpp_admin_advanced_callback_rewrite_title_priority() {
 			<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, mpp_get_rewrite_title_priority() ); ?>><?php echo esc_html( $priority ); ?></option>
 		<?php endforeach; ?>
 	</select>
-	<p id="rewrite-title-description" class="description"><?php _e( 'Some plugins need this higher in order to correctly show the subpage title instead of "Page # of #". If the title works good please leave this to normal.', 'sgr-nextpage-titles' ); ?></p>
+	<p id="rewrite-title-description" class="description"><?php esc_html_e( 'Some plugins need this higher in order to correctly show the subpage title instead of "Page # of #". If the title works good please leave this to normal.', 'sgr-nextpage-titles' ); ?></p>
 		
 <?php
 }
@@ -68,8 +68,8 @@ function mpp_admin_advanced_callback_disable_tinymce_buttons() {
 ?>
 
 	<input id="disable-tinymce-buttons" name="mpp-disable-tinymce-buttons" type="checkbox" value="1" <?php checked( mpp_disable_tinymce_buttons() ); ?> />
-	<label for="disable-tinymce-buttons"><?php _e( 'Disable TinyMCE Buttons', 'sgr-nextpage-titles' ); ?></label>
-	<p id="disable-tinymce-description" class="description"><?php _e( 'Disable the TinyMCE Subpage button in the classic editor. Leave unchecked unless you experience editor conflicts.', 'sgr-nextpage-titles' ); ?></p>
+	<label for="disable-tinymce-buttons"><?php esc_html_e( 'Disable TinyMCE Buttons', 'sgr-nextpage-titles' ); ?></label>
+	<p id="disable-tinymce-description" class="description"><?php esc_html_e( 'Disable the TinyMCE Subpage button in the classic editor. Leave unchecked unless you experience editor conflicts.', 'sgr-nextpage-titles' ); ?></p>
 
 <?php
 }
@@ -84,8 +84,8 @@ function mpp_admin_advanced_callback_build_mpp_postmeta_data() {
 ?>
 
 	<input id="postmeta-built" name="_mpp-postmeta-built" type="checkbox" value="<?php echo time(); ?>" />
-	<label for="postmeta-built"><?php _e( 'Build Multipage postmetas', 'sgr-nextpage-titles' ); ?></label>
-	<p id="postmeta-built-description" class="description"><?php _e( 'Please check this to build the Multipage postsmetas. If you see this option and were running a Multipage version < 1.4, please check this to build the required Multipage postmetas. Then this option will not display anymore.', 'sgr-nextpage-titles' ); ?></p>
+	<label for="postmeta-built"><?php esc_html_e( 'Build Multipage postmetas', 'sgr-nextpage-titles' ); ?></label>
+	<p id="postmeta-built-description" class="description"><?php esc_html_e( 'Please check this to build the Multipage postsmetas. If you see this option and were running a Multipage version < 1.4, please check this to build the required Multipage postmetas. Then this option will not display anymore.', 'sgr-nextpage-titles' ); ?></p>
 
 <?php
 }
@@ -106,13 +106,13 @@ function mpp_admin_advanced() {
 
 	<div class="wrap">
 
-		<h1><?php _e( 'Multipage Settings', 'sgr-nextpage-titles' ); ?></h1>
+		<h1><?php esc_html_e( 'Multipage Settings', 'sgr-nextpage-titles' ); ?></h1>
 		
 		<h2 class="nav-tab-wrapper"><?php mpp_admin_tabs( __( 'Advanced', 'sgr-nextpage-titles' ) ); ?></h2>
 		
-		<h2><?php _e( 'Advanced Settings', 'sgr-nextpage-titles' ); ?></h2>
+		<h2><?php esc_html_e( 'Advanced Settings', 'sgr-nextpage-titles' ); ?></h2>
 		
-		<p><?php _e( 'Please leave this settings to their default values, change only if you really know what to do.', 'sgr-nextpage-titles' ); ?></p>
+		<p><?php esc_html_e( 'Please leave this settings to their default values, change only if you really know what to do.', 'sgr-nextpage-titles' ); ?></p>
 
 		<form action="<?php echo esc_url( $form_action ) ?>" method="post">
 		
