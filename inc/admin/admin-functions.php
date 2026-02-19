@@ -13,7 +13,7 @@ function mpp_modify_admin_menu_highlight() {
 	global $plugin_page, $submenu_file;
 
 	// This tweaks the Settings subnav menu to show only one Multipage menu item.
-	if ( in_array( $plugin_page, array( 'mpp-advanced-settings' ) ) ) {
+	if ( in_array( $plugin_page, array( 'mpp-advanced-settings' ), true ) ) {
 		$submenu_file = 'mpp-settings';
 	}
 	
@@ -94,7 +94,7 @@ function mpp_admin_tabs( $active_tab = '' ) {
  * @since 1.4
  *
  * @param string $active_tab Name of the tab that is active. Optional.
- * @return string
+ * @return array
  */
 function mpp_get_admin_tabs( $active_tab = '' ) {
 	$tabs = array(

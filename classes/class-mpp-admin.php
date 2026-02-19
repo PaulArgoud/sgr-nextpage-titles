@@ -310,7 +310,7 @@ class MPP_Admin {
 			var subtitle = prompt( '<?php echo esc_js( __( 'Enter the subpage title', 'sgr-nextpage-titles' ) ); ?>' ),
 				shortcode, t = this;
 
-			if (typeof subtitle != 'undefined' && subtitle.length < 2) return;
+			if (subtitle === null || subtitle.length < 2) return;
 
 			t.tagStart = '[nextpage title="' + subtitle + '"]\n\n';
 			t.tagEnd = false;

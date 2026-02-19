@@ -262,7 +262,7 @@ function mpp_toc( $multipage, $args = '' ) {
  * @global WP_Rewrite $wp_rewrite
  *
  * @param int $i Page number.
- * @param string $p Paragraph id.
+ * @param string $p Fragment identifier.
  * @return string Link.
  */
 function _mpp_link_page_url( $i, $p = '' ) {

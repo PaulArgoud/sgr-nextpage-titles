@@ -46,7 +46,7 @@ function mpp_db_version() {
 	 *
 	 * @since 1.4
 	 *
-	 * @return string The Multipage database version.
+	 * @return int The Multipage database version.
 	 */
 	function mpp_get_db_version() {
 		return multipage()->db_version;
@@ -66,7 +66,7 @@ function mpp_db_version_raw() {
 	 *
 	 * @since 1.4
 	 *
-	 * @return string The Multipage version direct from the database.
+	 * @return int The Multipage version direct from the database.
 	 */
 	function mpp_get_db_version_raw() {
 		$mpp = multipage();

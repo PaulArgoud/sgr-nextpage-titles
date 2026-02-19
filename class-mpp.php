@@ -500,7 +500,6 @@ class Multipage {
 	 * Styles applied to public-facing pages
 	 *
 	 * @since 0.6
-	 * @uses enqueue_styles()
 	 */
 	public function enqueue_styles() {
 		// LTR or RTL
@@ -515,12 +514,12 @@ class Multipage {
 		// Check child theme
 		if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file ) ) {
 			$location = trailingslashit( get_stylesheet_directory_uri() );
-			$handle   = get_stylesheet_directory() . '-multipage';
+			$handle   = get_stylesheet() . '-multipage';
 
 		// Check parent theme
 		} elseif ( file_exists( trailingslashit( get_template_directory() ) . $file ) ) {
 			$location = trailingslashit( get_template_directory_uri() );
-			$handle   = get_template_directory() . '-multipage';
+			$handle   = get_template() . '-multipage';
 
 		// Multipage Plugin Default Style
 		} else {

@@ -48,6 +48,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `@param bool|string` corrected to `@param int` for priority option defaults in `mpp-options.php`
 - Missing `$multipage` parameter documented in `mpp_link_pages()` and `mpp_toc()` docblocks
 - Redundant `$post &&` check removed in `mpp_pre_handle_404()` — already validated above
+- **JS TypeError**: cancelling the quicktag subpage prompt caused `null.length` crash — now checks for `null` explicitly
+- **CSS handle**: `enqueue_styles()` used full filesystem path (`get_stylesheet_directory()`) as handle identifier — replaced with `get_stylesheet()` / `get_template()` slug
+- `mpp_get_admin_tabs()` docblock declared `@return string` but the function returns an `array`
+- `mpp_get_db_version()` and `mpp_get_db_version_raw()` docblocks declared `@return string` but the functions return an `int`
+- Self-referencing `@uses enqueue_styles()` tag removed from `enqueue_styles()` docblock
+- `_mpp_link_page_url()` docblock `@param string $p Paragraph id` corrected to « Fragment identifier »
+- `in_array()` missing strict mode (`true`) in `mpp_modify_admin_menu_highlight()`
 
 ### Added
 
